@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SimpleIoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\JSMunroe-SimpleIoc.1.0.0-alpha2\lib\SimpleIoc.dll</HintPath>
+      <HintPath>..\packages\JSMunroe-SimpleIoc.1.0.0-alpha3\lib\SimpleIoc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -49,14 +49,19 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
     <Compile Include="NavigationCoreTest.cs" />
-    <Compile Include="FakeContrller.cs" />
+    <Compile Include="Results\ViewResultTest.cs" />
+    <Compile Include="TestController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MvcEngineTest.cs" />
+    <Compile Include="TextViewHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleMvc\SimpleMvc.csproj">

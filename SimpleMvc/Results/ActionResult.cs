@@ -1,4 +1,4 @@
-namespace SimpleMvc
+namespace SimpleMvc.Results
 {
     public class ActionResult
     {
