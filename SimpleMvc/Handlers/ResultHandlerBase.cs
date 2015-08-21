@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimpleMvc.Contracts;
 using SimpleMvc.Results;
 
-namespace SimpleMvc
+namespace SimpleMvc.Handlers
 {
     public abstract class ResultHandlerBase<TResult> : IResultHandler
         where TResult : ActionResult
@@ -26,7 +22,7 @@ namespace SimpleMvc
             var result = a_result as TResult;
 
             if (result == null)
-                throw new InvalidOperationException($"This result handler does not handle this type of action result ('{a_result.GetType()}').");
+                throw new InvalidOperationException($"This result handler does not handle this type of action result ('{a_result.GetType().FullName}').");
 
             Handle(result);
         }

@@ -57,7 +57,7 @@ namespace SimpleMvc.Test
         public void RegisterBootstrappableViewHandler()
         {
             // Setup
-            var viewHandler = new TestBootstrappableViewHandler();
+            var viewHandler = new TestViewHandler();
 
             // Execute
             _mvcEngine.RegisterHandler(viewHandler);
@@ -71,7 +71,7 @@ namespace SimpleMvc.Test
         {
             // Execute
             _mvcEngine.RegisterHandler(new TestViewHandler());
-            _mvcEngine.RegisterHandler(new TestBootstrappableViewHandler());
+            _mvcEngine.RegisterHandler(new TestViewHandler());
         }
 
         [TestMethod]
@@ -79,8 +79,10 @@ namespace SimpleMvc.Test
         {
             // Setup
             var handler1 = new TestViewHandler();
+            handler1.ViewCatalog.RegisterView<TestView1>("MillionDollars");
             _mvcEngine.RegisterHandler(handler1);
-            var handler2 = new TestBootstrappableViewHandler();
+            var handler2 = new TestViewHandler();
+            handler2.ViewCatalog.RegisterView<TestView1>("MillionDollars");
             _mvcEngine.RegisterHandler(handler2);
 
             // Execute
@@ -118,6 +120,7 @@ namespace SimpleMvc.Test
             // Setup
             var handler = new TestViewHandler();
             _mvcEngine.RegisterHandler(handler);
+            handler.ViewCatalog.RegisterView<TestView1>("Index");
 
             // Execute
             _mvcEngine.Navigator.Navigate<TestController>(c => c.Index());

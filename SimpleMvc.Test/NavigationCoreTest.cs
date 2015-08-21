@@ -15,7 +15,10 @@ namespace SimpleMvc.Test
         {
             _container = new Container();
             _mvcEngine = new MvcEngine(_container);
-            _mvcEngine.RegisterHandler(new TestViewHandler());
+            var viewHandler = new TestViewHandler();
+            _mvcEngine.RegisterHandler(viewHandler);
+            viewHandler.ViewCatalog.RegisterView<TestView1>("Index");
+            viewHandler.ViewCatalog.RegisterView<TestView2>("EditUser");
         }
 
         [TestMethod]

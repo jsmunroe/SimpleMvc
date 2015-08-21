@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{773B15A8-3D72-433D-B460-AEB994B848A2}</ProjectGuid>
+    <ProjectGuid>{F3186C1B-381F-482C-AD71-0309B8BF6C16}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleMvc.Test</RootNamespace>
-    <AssemblyName>SimpleMvc.Test</AssemblyName>
+    <RootNamespace>SimpleMvc.Wpf.Test</RootNamespace>
+    <AssemblyName>SimpleMvc.Wpf.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleIoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\JSMunroe-SimpleIoc.1.0.0-alpha3\lib\SimpleIoc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -49,24 +45,13 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-          <Private>False</Private>
-        </Reference>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Handlers\ViewHandlerTest.cs" />
-    <Compile Include="NavigationCoreTest.cs" />
-    <Compile Include="Results\ViewResultTest.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MvcEngineTest.cs" />
-    <Compile Include="TestController.cs" />
-    <Compile Include="TestViews.cs" />
-    <Compile Include="TestViewTarget.cs" />
-    <Compile Include="TextViewHandler.cs" />
-    <Compile Include="TestViewCatalog.cs" />
-    <Compile Include="ViewCatalogs\DiscoverableViewCatalogTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleMvc\SimpleMvc.csproj">
@@ -74,10 +59,6 @@
       <Name>SimpleMvc</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
