@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SimpleMvc
 {
+    /// <summary>
+    /// Case-insensitive dictionary of named route values.
+    /// </summary>
     public class RouteDictionary : Dictionary<string, object>
     {
         /// <summary>
@@ -14,7 +17,7 @@ namespace SimpleMvc
         public RouteDictionary()
             : base(StringComparer.OrdinalIgnoreCase)
         {
-            
+
         }
     }
 }

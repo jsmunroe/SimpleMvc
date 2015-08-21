@@ -26,7 +26,7 @@ namespace SimpleMvc
             var result = a_result as TResult;
 
             if (result == null)
-                throw new InvalidOperationException($"This handler does not handle this type of action result ({a_result.GetType().FullName});");
+                throw new InvalidOperationException($"This result handler does not handle this type of action result ('{a_result.GetType()}').");
 
             Handle(result);
         }
