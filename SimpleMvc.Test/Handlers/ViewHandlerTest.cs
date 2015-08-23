@@ -5,6 +5,7 @@ using SimpleMvc.Contracts;
 using SimpleMvc.Exceptions;
 using SimpleMvc.Handlers;
 using SimpleMvc.Results;
+using SimpleMvc.Test.TestViews;
 
 namespace SimpleMvc.Test.Handlers
 {
@@ -12,15 +13,18 @@ namespace SimpleMvc.Test.Handlers
     public class ViewHandlerTest
     {
         private TestViewCatalog _viewCatalog = null;
+        private TestModelBinder _modelBinder = null;
         private TestViewTarget _viewTarget = null;
 
         private ViewHandler InitializeViewHandler()
         {
             _viewCatalog = new TestViewCatalog();
+            _modelBinder = new TestModelBinder();
             _viewTarget = new TestViewTarget();
 
             var viewHandler = new ViewHandler();
             viewHandler.RegisterViewCatalog(_viewCatalog);
+            viewHandler.RegisterModelBinder(_modelBinder);
             viewHandler.RegisterViewTarget(_viewTarget);
 
             return viewHandler;
@@ -85,6 +89,28 @@ namespace SimpleMvc.Test.Handlers
             // Execute
             viewHandler.RegisterViewTarget(a_viewTarget: null);
         }
+
+        [TestMethod]
+        public void RegisterModelBinder()
+        {
+            // Setup
+            var viewHandler = new ViewHandler();
+
+            // Execute
+            viewHandler.RegisterModelBinder(new TestModelBinder());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterModelBinderWithNull()
+        {
+            // Setup
+            var viewHandler = new ViewHandler();
+
+            // Execute
+            viewHandler.RegisterModelBinder(a_modelBinder: null);
+        }
+
 
         [TestMethod]
         public void HandleViewResult()

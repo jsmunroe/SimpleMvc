@@ -1,5 +1,6 @@
 ﻿using SimpleMvc.Results;
 using System;
+using SimpleMvc.Test.TestViews;
 
 namespace SimpleMvc.Test
 {
@@ -18,18 +19,13 @@ namespace SimpleMvc.Test
         public ActionResult User(int id)
         {
             User1Called = true;
-            return View("EditUser", new TestUserModel());
+            return View("EditUser", new TestModel());
         }
 
         public ActionResult User(string userName, string password)
         {
             User2Called = true;
-            return View("EditUser", new TestUserModel());
+            return View("EditUser", new TestModel());
         }
-    }
-
-    public class TestUserModel
-    {
-
     }
 }

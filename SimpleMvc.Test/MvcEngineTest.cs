@@ -5,6 +5,7 @@ using SimpleMvc.Contracts;
 using SimpleIoc.Contracts;
 using SimpleMvc.Exceptions;
 using SimpleMvc.Results;
+using SimpleMvc.Test.TestViews;
 
 namespace SimpleMvc.Test
 {

@@ -12,6 +12,8 @@ namespace SimpleMvc.Handlers
     {
         protected IViewCatalog _viewCatalog;
 
+        private IModelBinder _modelBinder;
+
         private readonly List<IViewTarget> _viewTargets = new List<IViewTarget>();
 
         /// <summary>
@@ -34,10 +36,13 @@ namespace SimpleMvc.Handlers
             #endregion
 
             // Get view object from view catalog.
-            var view = _viewCatalog.GetView(a_result.ViewName, a_result.Model);
+            var view = _viewCatalog.GetView(a_result.ViewName);
 
             if (view == null)
                 throw new ViewNotFoundException(a_result.ViewName);
+
+            // Apply model to the view.
+            _modelBinder?.Bind(view, a_result.Model);
 
             // Send view object to view targets.
             foreach (var viewTarget in _viewTargets)
@@ -79,7 +84,7 @@ namespace SimpleMvc.Handlers
         }
 
         /// <summary>
-        /// Register the given view target for this handler.
+        /// Register the given view target (<paramref name="a_viewTarget"/>) for this handler.
         /// </summary>
         /// <param name="a_viewTarget">View target.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_viewTarget"/> is null.</exception>
@@ -96,6 +101,23 @@ namespace SimpleMvc.Handlers
                 throw new InvalidOperationException("View target already exists in this handler.");
 
             _viewTargets.Add(a_viewTarget);
+        }
+
+        /// <summary>
+        /// Register the given model binder (<paramref name="a_modelBinder"/>) for this handler.
+        /// </summary>
+        /// <param name="a_modelBinder">Model binder.</param>
+        /// <exception cref="ArgumentNullException">Thrown if "<paramref name="a_modelBinder"/>" is null.</exception>
+        public void RegisterModelBinder(IModelBinder a_modelBinder)
+        {
+            #region Argument Validation
+
+            if (a_modelBinder == null)
+                throw new ArgumentNullException(nameof(a_modelBinder));
+
+            #endregion
+
+            _modelBinder = a_modelBinder;
         }
     }
 }

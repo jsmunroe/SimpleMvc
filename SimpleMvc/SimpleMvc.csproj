@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IModelBinder.cs" />
     <Compile Include="Contracts\IResultHandler.cs" />
     <Compile Include="Contracts\IViewCatalog.cs" />
     <Compile Include="Contracts\IViewTarget.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Exceptions\ViewNotFoundException.cs" />
     <Compile Include="Handlers\ResultHandlerBase.cs" />
     <Compile Include="Handlers\ViewHandler.cs" />
+    <Compile Include="ModelBinderBase.cs" />
     <Compile Include="Results\ActionResult.cs" />
     <Compile Include="ControllerBase.cs" />
     <Compile Include="Exceptions\NavigationExcection.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\ViewResult.cs" />
     <Compile Include="RouteDictionary.cs" />
+    <Compile Include="ViewCatalogs\DirectoryViewCatalog.cs" />
     <Compile Include="ViewTarget.cs" />
   </ItemGroup>
   <ItemGroup>

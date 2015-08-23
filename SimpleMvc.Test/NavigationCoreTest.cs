@@ -1,6 +1,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleIoc;
+using SimpleMvc.Test.TestViews;
 
 namespace SimpleMvc.Test
 {

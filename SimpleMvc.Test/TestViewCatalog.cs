@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleIoc;
 using SimpleMvc.Contracts;
+using SimpleMvc.Test.TestViews;
 
 namespace SimpleMvc.Test
 {
@@ -27,8 +28,7 @@ namespace SimpleMvc.Test
         /// Get a view with the given view name (<paramref name="a_viewName"/>).
         /// </summary>
         /// <param name="a_viewName">View name.</param>
-        /// <param name="a_model">Model to apply to the view.</param>
-        public object GetView(string a_viewName, object a_model)
+        public object GetView(string a_viewName)
         {
             #region Argument Validation
 
@@ -42,9 +42,6 @@ namespace SimpleMvc.Test
 
             var viewType = _viewTypesByName[a_viewName];
             var view = _container.Resolve(viewType);
-
-            if (view is TestViewBase)
-                (view as TestViewBase).DataModel = a_model;
 
             ViewNames.Add(a_viewName);
 
