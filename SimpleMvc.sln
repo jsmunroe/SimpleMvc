@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMvc", "SimpleMvc\Simp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMvc.Test", "SimpleMvc.Test\SimpleMvc.Test.csproj", "{773B15A8-3D72-433D-B460-AEB994B848A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMvc.Wpf", "SimpleMvc.Wpf\SimpleMvc.Wpf.csproj", "{F650AEA5-5844-4798-AD72-B66EE1BFC1ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMvc.Wpf.Test", "SimpleMvc.Wpf.Test\SimpleMvc.Wpf.Test.csproj", "{F3186C1B-381F-482C-AD71-0309B8BF6C16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{773B15A8-3D72-433D-B460-AEB994B848A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{773B15A8-3D72-433D-B460-AEB994B848A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{773B15A8-3D72-433D-B460-AEB994B848A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F650AEA5-5844-4798-AD72-B66EE1BFC1ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F650AEA5-5844-4798-AD72-B66EE1BFC1ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F650AEA5-5844-4798-AD72-B66EE1BFC1ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F650AEA5-5844-4798-AD72-B66EE1BFC1ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3186C1B-381F-482C-AD71-0309B8BF6C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3186C1B-381F-482C-AD71-0309B8BF6C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3186C1B-381F-482C-AD71-0309B8BF6C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3186C1B-381F-482C-AD71-0309B8BF6C16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

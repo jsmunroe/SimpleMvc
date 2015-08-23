@@ -35,7 +35,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,10 +54,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="ControlVewTargetTest.cs" />
+    <Compile Include="FrameViewTargetTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimpleMvc.Wpf\SimpleMvc.Wpf.csproj">
+      <Project>{F650AEA5-5844-4798-AD72-B66EE1BFC1ED}</Project>
+      <Name>SimpleMvc.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleMvc\SimpleMvc.csproj">
       <Project>{9f7ba126-6df9-44a2-9dec-ee991cc450af}</Project>
       <Name>SimpleMvc</Name>
