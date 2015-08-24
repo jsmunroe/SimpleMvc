@@ -1,0 +1,21 @@
+
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>JSMunroe-SimpleMvc</id>
+    <version>$version$</version>
+    <title>SimpleMvc</title>
+    <authors>JSMunroe.com, Jordan Munroe</authors>
+    <owners>Jordan Munroe</owners>
+    <projectUrl>https://github.com/jsmunroe/SimpleMvc</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Facilitates MVC pattern anywhere with optional support for WPF.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright &#x00A9; JSMunroe.com. All rights reserved.</copyright>
+    <tags>MVC Model View Container WPF</tags>
+  </metadata>
+  <files>
+	  <file src="SimpleMvc\bin\$configuration$\SimpleIoc.dll" target="lib" />
+	  <file src="SimpleMvc\bin\$configuration$\SimpleMvc.dll" target="lib" />
+  </files>
+</package>
