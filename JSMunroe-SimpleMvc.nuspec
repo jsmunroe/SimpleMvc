@@ -15,6 +15,7 @@
   </metadata>
   <files>
 	  <file src="SimpleMvc\bin\$configuration$\SimpleIoc.dll" target="lib" />
-	  <file src="SimpleMvc\bin\$configuration$\SimpleMvc.dll" target="lib" />
+    <file src="SimpleMvc\bin\$configuration$\SimpleMvc.dll" target="lib" />
+    <file src="SimpleMvc.Wpf\bin\$configuration$\SimpleMvc.Wpf.dll" target="lib" />
   </files>
 </package>
