@@ -13,7 +13,7 @@ namespace SimpleMvc.Test
 {
     public class TestViewHandler : ViewHandler
     {
-        public TestViewCatalog ViewCatalog { get { return _viewCatalog as TestViewCatalog; } }
+        public TestTypeCatalog TypeCatalog => _viewCatalog as TestTypeCatalog;
 
         public KeyValuePair<string, object> LastResolvedView { get; private set; }
 
@@ -22,18 +22,19 @@ namespace SimpleMvc.Test
         /// </summary>
         public TestViewHandler()
         {
-            RegisterViewCatalog(new TestViewCatalog());
+            RegisterViewCatalog(new TestTypeCatalog());
         }
 
         /// <summary>
         /// Handle the given result (<paramref name="a_result"/>).
         /// </summary>
+        /// <param name="a_controller"></param>
         /// <param name="a_result">Result to handle.</param>
-        public override void Handle(ViewResult a_result)
+        public override void Handle(object a_controller, ViewResult a_result)
         {
             LastResolvedView = new KeyValuePair<string, object>(a_result.ViewName, a_result.Model);
 
-            base.Handle(a_result);
+            base.Handle(a_controller, a_result);
         }
     }
 

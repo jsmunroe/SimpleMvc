@@ -1,4 +1,4 @@
-﻿namespace SimpleMvc.Test.TestViews
+﻿namespace SimpleMvc.Test.TestViews.TestController
 {
     public class TestModel { }
 

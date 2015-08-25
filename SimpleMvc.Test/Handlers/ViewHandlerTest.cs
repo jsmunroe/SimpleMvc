@@ -5,25 +5,27 @@ using SimpleMvc.Contracts;
 using SimpleMvc.Exceptions;
 using SimpleMvc.Handlers;
 using SimpleMvc.Results;
+using SimpleMvc.Test.TestControllers;
 using SimpleMvc.Test.TestViews;
+using SimpleMvc.Test.TestViews.TestController;
 
 namespace SimpleMvc.Test.Handlers
 {
     [TestClass]
     public class ViewHandlerTest
     {
-        private TestViewCatalog _viewCatalog = null;
+        private TestTypeCatalog _typeCatalog = null;
         private TestModelBinder _modelBinder = null;
         private TestViewTarget _viewTarget = null;
 
         private ViewHandler InitializeViewHandler()
         {
-            _viewCatalog = new TestViewCatalog();
+            _typeCatalog = new TestTypeCatalog();
             _modelBinder = new TestModelBinder();
             _viewTarget = new TestViewTarget();
 
             var viewHandler = new ViewHandler();
-            viewHandler.RegisterViewCatalog(_viewCatalog);
+            viewHandler.RegisterViewCatalog(_typeCatalog);
             viewHandler.RegisterModelBinder(_modelBinder);
             viewHandler.RegisterViewTarget(_viewTarget);
 
@@ -44,7 +46,7 @@ namespace SimpleMvc.Test.Handlers
             var viewHandler = new ViewHandler();
 
             // Execute
-            viewHandler.RegisterViewCatalog(new TestViewCatalog());
+            viewHandler.RegisterViewCatalog(new TestTypeCatalog());
         }
 
         [TestMethod]
@@ -116,42 +118,60 @@ namespace SimpleMvc.Test.Handlers
         public void HandleViewResult()
         {
             // Setup
+            var controller = new TestController();
             var viewHandler = InitializeViewHandler();
-            _viewCatalog.RegisterView<TestView1>("Index");
+            _typeCatalog.RegisterType<TestView1>("Index");
             var model = new TestModel();
 
             // Execute
-            viewHandler.Handle(new ViewResult("Index", model));
+            viewHandler.Handle(controller, new ViewResult { ViewName = "Index", Model = model });
 
             // Assert
-            Assert.IsTrue(_viewCatalog.ViewNames.Contains("Index"));
+            Assert.IsTrue(_typeCatalog.TypeNames.Contains("Index"));
             Assert.IsTrue(_viewTarget.LastSetView is TestView1);
             Assert.AreSame(model, (_viewTarget.LastSetView as TestView1).DataModel);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void HandleViewResultWithNull()
+        public void HandleViewResultWithNullController()
         {
             // Setup
+            var controller = new TestController();
             var viewHandler = InitializeViewHandler();
+            _typeCatalog.RegisterType<TestView1>("Index");
+            var model = new TestModel();
 
             // Execute
-            viewHandler.Handle(a_result: null);
+            viewHandler.Handle(a_controller: null, a_result: new ViewResult { ViewName = "Index", Model = model });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ViewNotFoundException))]
-        public void HandleViewResultWithNonRegisterView()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HandleViewResultWithNullResult()
         {
             // Setup
+            var controller = new TestController();
             var viewHandler = InitializeViewHandler();
 
             // Execute
-            viewHandler.Handle(new ViewResult("Index", new TestModel()));
+            viewHandler.Handle(a_controller: controller, a_result: null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotFoundException))]
+        public void HandleViewResultWithNonRegisterView()
+        {
+            // Setup
+            var controller = new TestController();
+            var viewHandler = InitializeViewHandler();
+            var model = new TestModel();
+
+            // Execute
+            viewHandler.Handle(controller, new ViewResult { ViewName = "Index", Model = model });
 
             // Assert
-            Assert.IsTrue(_viewCatalog.ViewNames.Contains("Index"));
+            Assert.IsTrue(_typeCatalog.TypeNames.Contains("Index"));
         }
 
         [TestMethod]
@@ -176,7 +196,7 @@ namespace SimpleMvc.Test.Handlers
             var viewHandler = InitializeViewHandler();
 
             // Execute
-            viewHandler.Bootstrap(a_container:null);
+            viewHandler.Bootstrap(a_container: null);
         }
     }
 }

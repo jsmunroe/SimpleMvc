@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleIoc;
 using SimpleMvc.Contracts;
 using SimpleIoc.Contracts;
 using SimpleMvc.Exceptions;
 using SimpleMvc.Results;
+using SimpleMvc.Test.TestControllers;
 using SimpleMvc.Test.TestViews;
+using SimpleMvc.Test.TestViews.TestController;
+using SimpleMvc.ViewCatalogs;
 
 namespace SimpleMvc.Test
 {
@@ -13,13 +17,14 @@ namespace SimpleMvc.Test
     public class MvcEngineTest
     {
         private Container _container;
-        private MvcEngine _mvcEngine = null;
+        private MvcEngine _mvc = null;
 
         [TestInitialize()]
         public void Initialize()
         {
             _container = new Container();
-            _mvcEngine = new MvcEngine(_container);
+            _mvc = new MvcEngine(_container)
+                .RegisterControllerCatalog(Assembly.GetExecutingAssembly(), "TestControllers");
         }
 
         [TestMethod]
@@ -30,20 +35,83 @@ namespace SimpleMvc.Test
         }
 
         [TestMethod]
-        public void ResolveController()
+        public void RegisterControllerCatalog()
         {
+            // Setup
+            var mvc = new MvcEngine();
+            var catalogController = new DirectoryCatalog(Assembly.GetExecutingAssembly(), "Controllers");
+
             // Execute
-            var controller = _mvcEngine.ResolveController<TestController>();
+            var result = mvc.RegisterControllerCatalog(catalogController);
 
             // Assert
-            Assert.IsNotNull(controller);
+            Assert.AreSame(mvc, result);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterControllerWithNull()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            mvc.RegisterControllerCatalog(a_catalog: null);
+        }
+
+
+        [TestMethod]
+        public void RegisterControllerWithAssembly()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            var result = mvc.RegisterControllerCatalog(Assembly.GetExecutingAssembly(), "Controllers", "", typeof(object));
+
+            // Assert
+            Assert.AreSame(mvc, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterControllerWithNullAssembly()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            mvc.RegisterControllerCatalog(a_assembly: null, a_directory: "Controllers", a_suffix: "", a_baseType: typeof(object));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterControllerWithAssemblyWithNullDirectory()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            mvc.RegisterControllerCatalog(a_assembly: Assembly.GetExecutingAssembly(), a_directory: null, a_suffix: "", a_baseType: typeof(object));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterControllerWithAssemblyWithNullSuffix()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            mvc.RegisterControllerCatalog(a_assembly: Assembly.GetExecutingAssembly(), a_directory: "Controllers", a_suffix: null, a_baseType: typeof(object));
         }
 
         [TestMethod]
         public void RegisterViewHandler()
         {
             // Execute
-            _mvcEngine.RegisterHandler(new TestViewHandler());
+            _mvc.RegisterHandler(new TestViewHandler());
         }
 
         [TestMethod]
@@ -51,7 +119,7 @@ namespace SimpleMvc.Test
         public void RegisterHandlerWithNull()
         {
             // Execute
-            _mvcEngine.RegisterHandler<ViewResult>(a_handler: null);
+            _mvc.RegisterHandler<ViewResult>(a_handler: null);
         }
 
         [TestMethod]
@@ -61,7 +129,7 @@ namespace SimpleMvc.Test
             var viewHandler = new TestViewHandler();
 
             // Execute
-            _mvcEngine.RegisterHandler(viewHandler);
+            _mvc.RegisterHandler(viewHandler);
 
             // Assert
             Assert.IsTrue(viewHandler.IsBootstrapped);
@@ -71,23 +139,74 @@ namespace SimpleMvc.Test
         public void RegisterTwoHandlersWithSameResultType()
         {
             // Execute
-            _mvcEngine.RegisterHandler(new TestViewHandler());
-            _mvcEngine.RegisterHandler(new TestViewHandler());
+            _mvc.RegisterHandler(new TestViewHandler());
+            _mvc.RegisterHandler(new TestViewHandler());
         }
+
+        [TestMethod]
+        public void ResolveController()
+        {
+            // Execute
+            var controller = _mvc.ResolveController<TestController>();
+
+            // Assert
+            Assert.IsNotNull(controller);
+        }
+
+        [TestMethod]
+        public void ResolveControllerWithName()
+        {
+            // Execute
+            _mvc.ResolveController("TestController");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ResolveControllerWithNullName()
+        {
+            // Execute
+            _mvc.ResolveController(a_controllerName: null);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ResolveControllerWithNameWithoutRegisteredCatalog()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            mvc.ResolveController("TestController");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotFoundException))]
+        public void ResolveNonExistantController()
+        {
+            // Setup
+            var mvc = new MvcEngine()
+                .RegisterControllerCatalog(Assembly.GetExecutingAssembly(), "TestControllers");
+
+            // Execute
+            mvc.ResolveController("CatController");
+        }
+
 
         [TestMethod]
         public void HandleResult()
         {
             // Setup
             var handler1 = new TestViewHandler();
-            handler1.ViewCatalog.RegisterView<TestView1>("MillionDollars");
-            _mvcEngine.RegisterHandler(handler1);
+            handler1.TypeCatalog.RegisterType<TestView1>("MillionDollars");
+            _mvc.RegisterHandler(handler1);
             var handler2 = new TestViewHandler();
-            handler2.ViewCatalog.RegisterView<TestView1>("MillionDollars");
-            _mvcEngine.RegisterHandler(handler2);
+            handler2.TypeCatalog.RegisterType<TestView1>("MillionDollars");
+            _mvc.RegisterHandler(handler2);
 
             // Execute
-            _mvcEngine.HandleResult(new ViewResult("MillionDollars", 1000000.0m));
+            var controller = new TestController();
+            _mvc.HandleResult(controller, new ViewResult { ViewName = "MillionDollars", Model = 1000000.0m });
 
             // Assert
             Assert.IsNotNull(handler1.LastResolvedView);
@@ -103,16 +222,30 @@ namespace SimpleMvc.Test
         [ExpectedException(typeof(MvcHandlerException))]
         public void HandleResultWithoutHandler()
         {
+            // Setup
+            var controller = new TestController();
+
             // Execute
-            _mvcEngine.HandleResult(new ViewResult("Oops", "This is a model."));
+            _mvc.HandleResult(controller, new ViewResult { ViewName = "Oops", Model = "This is a model." });
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void HandleResultWithNull()
+        public void HandleResultWithNullResult()
+        {
+            // Setup
+            var controller = new TestController();
+
+            // Execute
+            _mvc.HandleResult(a_controller: controller, a_result: null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HandleResultWithNullController()
         {
             // Execute
-            _mvcEngine.HandleResult(a_result: null);
+            _mvc.HandleResult(a_controller: null, a_result: new ViewResult { ViewName = "Oops", Model = "This is a model." });
         }
 
         [TestMethod]
@@ -120,11 +253,11 @@ namespace SimpleMvc.Test
         {
             // Setup
             var handler = new TestViewHandler();
-            _mvcEngine.RegisterHandler(handler);
-            handler.ViewCatalog.RegisterView<TestView1>("Index");
+            _mvc.RegisterHandler(handler);
+            handler.TypeCatalog.RegisterType<TestView1>("Index");
 
             // Execute
-            _mvcEngine.Navigator.Navigate<TestController>(c => c.Index());
+            _mvc.Navigator.Navigate<TestController>(c => c.Index());
 
             // Assert
             Assert.IsNotNull(handler.LastResolvedView);
@@ -135,7 +268,7 @@ namespace SimpleMvc.Test
         public void NavigateToViewWithoutViewHandler()
         {
             // Execute
-            _mvcEngine.Navigator.Navigate<TestController>(c => c.Index());
+            _mvc.Navigator.Navigate<TestController>(c => c.Index());
         }
 
     }

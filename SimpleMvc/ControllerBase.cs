@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using SimpleMvc;
 
 namespace SimpleMvc
 {
@@ -18,7 +19,75 @@ namespace SimpleMvc
         /// <returns>Created view result.</returns>
         protected ViewResult View([CallerMemberName]string a_viewName = "", object a_model = null)
         {
-            return new ViewResult(a_viewName, a_model);
+            return new ViewResult
+            {
+                ViewName = a_viewName,
+                Model = a_model,
+            };
+        }
+
+        /// <summary>
+        /// Redirect to another action within this controller.
+        /// </summary>
+        /// <param name="a_actionName">Action name.</param>
+        /// <param name="a_values">Route values.</param>
+        /// <returns>Created redirect result.</returns>
+        protected RediectResult Redirect(string a_actionName, RouteDictionary a_values = null)
+        {
+            return new RediectResult
+            {
+                ActionName = a_actionName,
+                Values = a_values,
+            };
+        }
+
+        /// <summary>
+        /// Redirect to another action within this controller.
+        /// </summary>
+        /// <param name="a_actionName">Action name.</param>
+        /// <param name="a_values">Route values.</param>
+        /// <returns>Created redirect result.</returns>
+        protected RediectResult Redirect(string a_actionName, dynamic a_values = null)
+        {
+            return new RediectResult
+            {
+                ActionName = a_actionName,
+                Values = new RouteDictionary(a_values),
+            };
+        }
+
+        /// <summary>
+        /// Redirect to another action within this controller.
+        /// </summary>
+        /// <param name="a_actionName">Action name.</param>
+        /// <param name="a_controllerName">Controller name.</param>
+        /// <param name="a_values">Route values.</param>
+        /// <returns>Created redirect result.</returns>
+        protected RediectResult Redirect(string a_actionName, string a_controllerName, RouteDictionary a_values = null)
+        {
+            return new RediectResult
+            {
+                ControllerName = a_controllerName,
+                ActionName = a_actionName,
+                Values = a_values,
+            };
+        }
+
+        /// <summary>
+        /// Redirect to another action within this controller.
+        /// </summary>
+        /// <param name="a_actionName">Action name.</param>
+        /// <param name="a_controllerName">Controller name.</param>
+        /// <param name="a_values">Route values.</param>
+        /// <returns>Created redirect result.</returns>
+        protected RediectResult Redirect(string a_actionName, string a_controllerName, dynamic a_values = null)
+        {
+            return new RediectResult
+            {
+                ControllerName = a_controllerName,
+                ActionName = a_actionName,
+                Values = new RouteDictionary(a_values),
+            };
         }
     }
 }

@@ -31,6 +31,17 @@ namespace SimpleMvc
         }
 
         /// <summary>
+        /// Navigate to the action with the given name (<paramref name="a_actionName"/>) within the controller with the given name (<paramref name="a_controllerName"/>).
+        /// </summary>
+        /// <param name="a_controllerName">Controller name.</param>
+        /// <param name="a_actionName">Actor name.</param>
+        /// <param name="a_routeValues">Values.</param>
+        public void Navigate(string a_controllerName, string a_actionName, RouteDictionary a_routeValues)
+        {
+            
+        }
+
+        /// <summary>
         /// Navigate to the action 
         /// </summary>
         /// <typeparam name="TController">Type of controller.</typeparam>
@@ -76,7 +87,7 @@ namespace SimpleMvc
 
             // Process the action result.
 
-            _mvc.HandleResult(result);
+            _mvc.HandleResult(controller, result);
         }
 
         /// <summary>

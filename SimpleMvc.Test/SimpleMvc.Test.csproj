@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleIoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\JSMunroe-SimpleIoc.1.0.0-alpha3\lib\SimpleIoc.dll</HintPath>
       <Private>True</Private>
@@ -61,13 +62,14 @@
     <Compile Include="Results\ViewResultTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MvcEngineTest.cs" />
-    <Compile Include="TestController.cs" />
+    <Compile Include="TestControllers\TestController.cs" />
     <Compile Include="TestModelBinder.cs" />
-    <Compile Include="TestViews\TestViews.cs" />
+    <Compile Include="TestViews\TestController\TestViews.cs" />
     <Compile Include="TestViewTarget.cs" />
     <Compile Include="TextViewHandler.cs" />
-    <Compile Include="TestViewCatalog.cs" />
-    <Compile Include="ViewCatalogs\DirectoryViewCatalogTest.cs" />
+    <Compile Include="TestTypeCatalog.cs" />
+    <Compile Include="TypeCatalogs\DirectoryCatalogTest.cs" />
+    <Compile Include="RouteDictionaryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleMvc\SimpleMvc.csproj">

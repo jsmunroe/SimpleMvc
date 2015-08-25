@@ -10,7 +10,7 @@ namespace SimpleMvc.Handlers
 {
     public class ViewHandler : ResultHandlerBase<ViewResult>, IBootstrappable
     {
-        protected IViewCatalog _viewCatalog;
+        protected ITypeCatalog _viewCatalog;
 
         private IModelBinder _modelBinder;
 
@@ -24,25 +24,33 @@ namespace SimpleMvc.Handlers
         /// <summary>
         /// Handle the given result (<paramref name="a_result"/>).
         /// </summary>
+        /// <param name="a_controller"></param>
         /// <param name="a_result">Result to handle.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_result"/> is null.</exception>
-        public override void Handle(ViewResult a_result)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_controller"/> is null.</exception>
+        public override void Handle(object a_controller, ViewResult a_result)
         {
             #region Argument Validation
 
             if (a_result == null)
                 throw new ArgumentNullException(nameof(a_result));
 
+            if (a_controller == null)
+                throw new ArgumentNullException(nameof(a_controller));
+
             #endregion
 
+            var controllerName = a_controller.GetType().Name;
+
             // Get view object from view catalog.
-            var view = _viewCatalog.GetView(a_result.ViewName);
+            var view = _viewCatalog.Resolve(a_result.ViewName);
 
             if (view == null)
-                throw new ViewNotFoundException(a_result.ViewName);
+                throw new TypeNotFoundException(a_result.ViewName);
 
             // Apply model to the view.
             _modelBinder?.Bind(view, a_result.Model);
+
 
             // Send view object to view targets.
             foreach (var viewTarget in _viewTargets)
@@ -71,7 +79,7 @@ namespace SimpleMvc.Handlers
         /// </summary>
         /// <param name="a_viewCatalog">View catalog.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_viewCatalog"/> is null.</exception>
-        public void RegisterViewCatalog(IViewCatalog a_viewCatalog)
+        public void RegisterViewCatalog(ITypeCatalog a_viewCatalog)
         {
             #region Argument Validation
 

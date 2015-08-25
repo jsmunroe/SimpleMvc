@@ -1,7 +1,9 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleIoc;
+using SimpleMvc.Test.TestControllers;
 using SimpleMvc.Test.TestViews;
+using SimpleMvc.Test.TestViews.TestController;
 
 namespace SimpleMvc.Test
 {
@@ -18,8 +20,8 @@ namespace SimpleMvc.Test
             _mvcEngine = new MvcEngine(_container);
             var viewHandler = new TestViewHandler();
             _mvcEngine.RegisterHandler(viewHandler);
-            viewHandler.ViewCatalog.RegisterView<TestView1>("Index");
-            viewHandler.ViewCatalog.RegisterView<TestView2>("EditUser");
+            viewHandler.TypeCatalog.RegisterType<TestView1>("Index");
+            viewHandler.TypeCatalog.RegisterType<TestView2>("EditUser");
         }
 
         [TestMethod]
