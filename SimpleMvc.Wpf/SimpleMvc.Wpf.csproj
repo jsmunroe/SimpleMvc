@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlViewTarget.cs" />
+    <Compile Include="DataContextBinder.cs" />
     <Compile Include="FrameViewTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIDispatcherFetcher.cs" />
