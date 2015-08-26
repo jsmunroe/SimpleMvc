@@ -79,7 +79,7 @@ namespace SimpleMvc.Handlers
         /// </summary>
         /// <param name="a_viewCatalog">View catalog.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_viewCatalog"/> is null.</exception>
-        public void RegisterViewCatalog(ITypeCatalog a_viewCatalog)
+        public ViewHandler RegisterViewCatalog(ITypeCatalog a_viewCatalog)
         {
             #region Argument Validation
 
@@ -89,6 +89,8 @@ namespace SimpleMvc.Handlers
             #endregion
 
             _viewCatalog = a_viewCatalog;
+
+            return this;
         }
 
         /// <summary>
@@ -96,7 +98,7 @@ namespace SimpleMvc.Handlers
         /// </summary>
         /// <param name="a_viewTarget">View target.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_viewTarget"/> is null.</exception>
-        public void RegisterViewTarget(IViewTarget a_viewTarget)
+        public ViewHandler RegisterViewTarget(IViewTarget a_viewTarget)
         {
             #region Argument Validation
 
@@ -109,6 +111,8 @@ namespace SimpleMvc.Handlers
                 throw new InvalidOperationException("View target already exists in this handler.");
 
             _viewTargets.Add(a_viewTarget);
+
+            return this;
         }
 
         /// <summary>
@@ -116,7 +120,7 @@ namespace SimpleMvc.Handlers
         /// </summary>
         /// <param name="a_modelBinder">Model binder.</param>
         /// <exception cref="ArgumentNullException">Thrown if "<paramref name="a_modelBinder"/>" is null.</exception>
-        public void RegisterModelBinder(IModelBinder a_modelBinder)
+        public ViewHandler RegisterModelBinder(IModelBinder a_modelBinder)
         {
             #region Argument Validation
 
@@ -126,6 +130,8 @@ namespace SimpleMvc.Handlers
             #endregion
 
             _modelBinder = a_modelBinder;
+
+            return this;
         }
     }
 }

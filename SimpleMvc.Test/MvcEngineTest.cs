@@ -24,7 +24,7 @@ namespace SimpleMvc.Test
         {
             _container = new Container();
             _mvc = new MvcEngine(_container)
-                .RegisterControllerCatalog(Assembly.GetExecutingAssembly(), "TestControllers");
+                .RegisterControllerCatalog("TestControllers");
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace SimpleMvc.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void RegisterControllerWithNull()
+        public void RegisterControllerCatalogWithNull()
         {
             // Setup
             var mvc = new MvcEngine();
@@ -62,13 +62,13 @@ namespace SimpleMvc.Test
 
 
         [TestMethod]
-        public void RegisterControllerWithAssembly()
+        public void RegisterControllerCatalogWithAssembly()
         {
             // Setup
             var mvc = new MvcEngine();
 
             // Execute
-            var result = mvc.RegisterControllerCatalog(Assembly.GetExecutingAssembly(), "Controllers", "", typeof(object));
+            var result = mvc.RegisterControllerCatalog("Controllers", "", typeof(object));
 
             // Assert
             Assert.AreSame(mvc, result);
@@ -76,35 +76,136 @@ namespace SimpleMvc.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void RegisterControllerWithNullAssembly()
+        public void RegisterControllerCatalogWithAssemblyWithNullDirectory()
         {
             // Setup
             var mvc = new MvcEngine();
 
             // Execute
-            mvc.RegisterControllerCatalog(a_assembly: null, a_directory: "Controllers", a_suffix: "", a_baseType: typeof(object));
+            mvc.RegisterControllerCatalog(a_directory: null, a_suffix: "", a_baseType: typeof(object));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void RegisterControllerWithAssemblyWithNullDirectory()
+        public void RegisterControllerCatalogWithAssemblyWithNullSuffix()
         {
             // Setup
             var mvc = new MvcEngine();
 
             // Execute
-            mvc.RegisterControllerCatalog(a_assembly: Assembly.GetExecutingAssembly(), a_directory: null, a_suffix: "", a_baseType: typeof(object));
+            mvc.RegisterControllerCatalog( a_directory: "Controllers", a_suffix: null, a_baseType: typeof(object));
+        }
+
+
+        [TestMethod]
+        public void RegisterViewCatalog()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+            var viewCatalog = new DirectoryCatalog(Assembly.GetExecutingAssembly(), "Views", "", typeof (object));
+
+            // Execute
+            var result = mvc.RegisterViewCatalog(viewCatalog);
+
+            // Assert
+            Assert.AreSame(mvc, result);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void RegisterControllerWithAssemblyWithNullSuffix()
+        public void RegisterViewCatalogWithNull()
         {
             // Setup
             var mvc = new MvcEngine();
 
             // Execute
-            mvc.RegisterControllerCatalog(a_assembly: Assembly.GetExecutingAssembly(), a_directory: "Controllers", a_suffix: null, a_baseType: typeof(object));
+            mvc.RegisterViewCatalog(a_catalog: null);
+        }
+
+
+        [TestMethod]
+        public void RegisterViewCatalogWithAssembly()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            var result = mvc.RegisterViewCatalog("Views", "", typeof(object));
+
+            // Assert
+            Assert.AreSame(mvc, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterViewCatalogWithAssemblyWithNullDirectory()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            mvc.RegisterViewCatalog(a_directory: null, a_suffix: "", a_baseType: typeof(object));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterViewCatalogWithAssemblyWithNullSuffix()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            mvc.RegisterViewCatalog(a_directory: "Views", a_suffix: null, a_baseType: typeof(object));
+        }
+
+
+        [TestMethod]
+        public void RegisterViewTarget()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            var result = mvc.RegisterViewTarget(new TestViewTarget());
+
+            // Assert
+            Assert.AreSame(mvc, result);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterViewTargetWithNull()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            var result = mvc.RegisterViewTarget(a_viewTarget: null);
+        }
+
+        [TestMethod]
+        public void RegisterModelBinder()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            var result = mvc.RegisterModelBinder(new TestModelBinder());
+
+            // Assert
+            Assert.AreSame(mvc, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterModelBinderWithNull()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+
+            // Execute
+            var result = mvc.RegisterModelBinder(a_modelBinder: null);
         }
 
         [TestMethod]
@@ -186,7 +287,7 @@ namespace SimpleMvc.Test
         {
             // Setup
             var mvc = new MvcEngine()
-                .RegisterControllerCatalog(Assembly.GetExecutingAssembly(), "TestControllers");
+                .RegisterControllerCatalog("TestControllers");
 
             // Execute
             mvc.ResolveController("CatController");

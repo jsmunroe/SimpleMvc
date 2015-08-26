@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleMvc.Exceptions;
@@ -19,6 +20,7 @@ namespace SimpleMvc
         private readonly Container _container;
 
         private ITypeCatalog _controllerCatalog;
+        private ViewHandler _viewHandler;
 
         private readonly List<RegisteredHandler> _handlers = new List<RegisteredHandler>();
 
@@ -122,7 +124,7 @@ namespace SimpleMvc
         }
 
         /// <summary>
-        /// Register the given type catalog () to use in this engine.
+        /// Register the given type catalog (<paramref name="a_catalog"/>) to use as this engine's controller catalog.
         /// </summary>
         /// <param name="a_catalog"></param>
         /// <returns>This engine (fluent interface).</returns>
@@ -142,16 +144,77 @@ namespace SimpleMvc
         }
 
         /// <summary>
-        /// Register a directory controller to use in this engine.
+        /// Register a directory catalog to use as this engine's controller catalog.
         /// </summary>
-        /// <param name="a_assembly">Assembly in which to discover types.</param>
         /// <param name="a_directory">Relative directory in which to discover types.</param>
         /// <param name="a_suffix">Type name suffix.</param>
         /// <param name="a_baseType">Base type of </param>
-        /// <returns></returns>
-        public MvcEngine RegisterControllerCatalog(Assembly a_assembly, string a_directory, string a_suffix = "", Type a_baseType = null)
+        /// <returns>This engine (fluent interface).</returns>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public MvcEngine RegisterControllerCatalog(string a_directory, string a_suffix = "", Type a_baseType = null)
         {
-            _controllerCatalog = new DirectoryCatalog(a_assembly, a_directory, a_suffix, a_baseType);
+            var assembly = Assembly.GetCallingAssembly();
+            _controllerCatalog = new DirectoryCatalog(assembly, a_directory, a_suffix, a_baseType ?? typeof(ControllerBase));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Register the given type catalog (<paramref name="a_catalog"/>) to use as this engine's view catalog.
+        /// </summary>
+        /// <param name="a_catalog"></param>
+        /// <returns></returns>
+        public MvcEngine RegisterViewCatalog(ITypeCatalog a_catalog)
+        {
+            var viewHandler = GetViewHandler();
+
+            viewHandler.RegisterViewCatalog(a_catalog);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Register a directory catalog to use as this engine's view catalog.
+        /// </summary>
+        /// <param name="a_directory">Relative directory in which to discover types.</param>
+        /// <param name="a_suffix">Type name suffix.</param>
+        /// <param name="a_baseType">Base type of </param>
+        /// <returns>This engine (fluent interface).</returns>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public MvcEngine RegisterViewCatalog(string a_directory, string a_suffix = "", Type a_baseType = null)
+        {
+            var assembly = Assembly.GetCallingAssembly();
+            var catalog = new DirectoryCatalog(assembly, a_directory, a_suffix, a_baseType ?? typeof(ControllerBase));
+
+            var viewHandler = GetViewHandler();
+
+            viewHandler.RegisterViewCatalog(catalog);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Register the given view target (<paramref name="a_viewTarget"/>) with this engine's view handling system.
+        /// </summary>
+        /// <param name="a_viewTarget">View target.</param>
+        /// <returns>This engine (fluent interface).</returns>
+        public MvcEngine RegisterViewTarget(IViewTarget a_viewTarget)
+        {
+            var viewHandler = GetViewHandler();
+            viewHandler.RegisterViewTarget(a_viewTarget);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Register the given model binder (<paramref name="a_modelBinder"/>) with this engine's view handling system.
+        /// </summary>
+        /// <param name="a_modelBinder">View target.</param>
+        /// <returns>This engine (fluent interface).</returns>
+        public MvcEngine RegisterModelBinder(IModelBinder a_modelBinder)
+        {
+            var viewHandler = GetViewHandler();
+            viewHandler.RegisterModelBinder(a_modelBinder);
 
             return this;
         }
@@ -198,6 +261,22 @@ namespace SimpleMvc
         }
 
         /// <summary>
+        /// Get the view handler herein. Create and register it if it is not yet available.
+        /// </summary>
+        /// <returns>View handler.</returns>
+        private ViewHandler GetViewHandler()
+        {
+            if (_viewHandler == null)
+            {
+                _viewHandler = new ViewHandler();
+                RegisterHandler(_viewHandler);
+            }
+
+            return _viewHandler;
+        }
+
+
+        /// <summary>
         /// Result handler paired with the type of result 
         /// </summary>
         class RegisteredHandler
@@ -205,6 +284,7 @@ namespace SimpleMvc
             public Type Handles { get; set; }
             public IResultHandler Handler { get; set; }
         }
+
     }
 }
 
