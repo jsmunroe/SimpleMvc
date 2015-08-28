@@ -1,7 +1,7 @@
 # SimpleMVC
 Simple MVC engine with optional WPF support.
 
-##Configuration & Bootstrap
+## MVC Engine
 Configure `MvcEngine` with a fluent style interface. Use namespace folders to organize your controllers and views. 
 
     var mvc = new MvcEngine(_container)
