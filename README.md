@@ -2,7 +2,7 @@
 Simple MVC engine with optional WPF support.
 
 ##Configuration & Bootstrap
-Configure `MvcEngine` with a fluent style interface. Use namespace segments to organizae your types. 
+Configure `MvcEngine` with a fluent style interface. Use namespace folders to organize your controllers and views. 
 
     var mvc = new MvcEngine(_container)
        .RegisterControllerCatalog("Controllers", "Controller")
@@ -15,8 +15,6 @@ Configure `MvcEngine` with a fluent style interface. Use namespace segments to o
     
     mvc.Navigator.Navigate<UserItemsController>(c => c.Index());
 
-
-    
 ## XAML Integration
 Make a `Frame` or any `ContentControl` into a view target.
 
