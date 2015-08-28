@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,9 +48,18 @@ namespace SimpleMvc
         /// <returns>Created view result.</returns>
         protected ViewResult View(object a_model = null)
         {
-            StackFrame frame = new StackFrame(1);
-            var method = frame.GetMethod();
-            var viewName = method.Name;
+            string viewName = null;
+            var skip = 1;
+            while (viewName == null)
+            {
+                var frame = new StackFrame(skip);
+                var method = frame.GetMethod();
+
+                if (method.GetCustomAttribute(typeof (CompilerGeneratedAttribute)) == null)
+                    viewName = method.Name;
+
+                skip++;
+            }
 
             return new ViewResult
             {
