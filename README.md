@@ -1,21 +1,24 @@
 # SimpleMVC
-Simple standalone platform-agnostic MVC engine with optional WPF support.
+Simple MVC engine with optional WPF support.
 
 ##Configuration & Bootstrap
+Configure `MvcEngine` with a fluent style interface. Use namespace segments to organizae your types. 
 
     var mvc = new MvcEngine(_container)
        .RegisterControllerCatalog("Controllers", "Controller")
-       .RegisterViewCatalog("Views", "", typeof (Page))
+       .RegisterViewCatalog("Views", "", typeof(Page))
        .RegisterViewTarget(new FrameViewTarget("MainFrame"))
        .RegisterModelBinder(new DataContextBinder());
 
     var mainWindow = new MainWindow();
-
-    mvc.Navigator.Navigate<UserItemsController>(c => c.Index());
-
     mainWindow.ShowDialog();
     
+    mvc.Navigator.Navigate<UserItemsController>(c => c.Index());
+
+
+    
 ## XAML Integration
+Make a `Frame` or any `ContentControl` into a view target.
 
     <Frame mvc:ControlViewTarget.RegisterAs="MainFrame"></Frame>
 
