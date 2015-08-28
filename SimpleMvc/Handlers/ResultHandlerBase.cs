@@ -10,23 +10,25 @@ namespace SimpleMvc.Handlers
         /// <summary>
         /// Handle the given result (<paramref name="a_result"/>).
         /// </summary>
-        /// <param name="a_controller"></param>
+        /// <param name="a_mvc"></param>
+        /// <param name="a_controllerName"></param>
         /// <param name="a_result">Result to handle.</param>
-        public abstract void Handle(object a_controller, TResult a_result);
+        public abstract void Handle(MvcEngine a_mvc, string a_controllerName, TResult a_result);
 
         /// <summary>
         /// Handle the given result (<paramref name="a_result"/>).
         /// </summary>
-        /// <param name="a_controller"></param>
+        /// <param name="a_mvc"></param>
+        /// <param name="a_controllerName"></param>
         /// <param name="a_result">Result to handle.</param>
-        void IResultHandler.Handle(object a_controller, ActionResult a_result)
+        void IResultHandler.Handle(MvcEngine a_mvc, string a_controllerName, ActionResult a_result)
         {
             var result = a_result as TResult;
 
             if (result == null)
                 throw new InvalidOperationException($"This result handler does not handle this type of action result ('{a_result.GetType().FullName}').");
 
-            Handle(a_controller, result);
+            Handle(a_mvc, a_controllerName, result);
         }
     }
 }

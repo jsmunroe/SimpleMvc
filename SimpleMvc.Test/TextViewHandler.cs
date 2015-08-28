@@ -28,13 +28,14 @@ namespace SimpleMvc.Test
         /// <summary>
         /// Handle the given result (<paramref name="a_result"/>).
         /// </summary>
-        /// <param name="a_controller"></param>
+        /// <param name="a_mvc"></param>
+        /// <param name="a_controllerName"></param>
         /// <param name="a_result">Result to handle.</param>
-        public override void Handle(object a_controller, ViewResult a_result)
+        public override void Handle(MvcEngine a_mvc, string a_controllerName, ViewResult a_result)
         {
             LastResolvedView = new KeyValuePair<string, object>(a_result.ViewName, a_result.Model);
 
-            base.Handle(a_controller, a_result);
+            base.Handle(a_mvc, a_controllerName, a_result);
         }
     }
 

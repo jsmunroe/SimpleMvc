@@ -24,23 +24,25 @@ namespace SimpleMvc.Handlers
         /// <summary>
         /// Handle the given result (<paramref name="a_result"/>).
         /// </summary>
-        /// <param name="a_controller"></param>
+        /// <param name="a_mvc">Mvc engine.</param>
+        /// <param name="a_controllerName">Controller name.</param>
         /// <param name="a_result">Result to handle.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_result"/> is null.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_controller"/> is null.</exception>
-        public override void Handle(object a_controller, ViewResult a_result)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_controllerName"/> is null.</exception>
+        public override void Handle(MvcEngine a_mvc, string a_controllerName, ViewResult a_result)
         {
             #region Argument Validation
+
+            if (a_mvc == null)
+                throw new ArgumentNullException(nameof(a_mvc));
 
             if (a_result == null)
                 throw new ArgumentNullException(nameof(a_result));
 
-            if (a_controller == null)
-                throw new ArgumentNullException(nameof(a_controller));
+            if (a_controllerName == null)
+                throw new ArgumentNullException(nameof(a_controllerName));
 
             #endregion
-
-            var controllerName = a_controller.GetType().Name;
 
             // Get view object from view catalog.
             var view = _viewCatalog.Resolve(a_result.ViewName);
@@ -48,9 +50,16 @@ namespace SimpleMvc.Handlers
             if (view == null)
                 throw new TypeNotFoundException(a_result.ViewName);
 
+            // Connect MVC view model.
+            var mvcViewModel = (a_result.Model as IMvcViewModel);
+            if (mvcViewModel != null)
+            {
+                mvcViewModel.Mvc = a_mvc;
+                mvcViewModel.ControllerName = a_controllerName.GetType().Name;
+            }
+
             // Apply model to the view.
             _modelBinder?.Bind(view, a_result.Model);
-
 
             // Send view object to view targets.
             foreach (var viewTarget in _viewTargets)

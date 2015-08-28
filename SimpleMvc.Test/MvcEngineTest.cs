@@ -252,13 +252,19 @@ namespace SimpleMvc.Test
 
             // Assert
             Assert.IsNotNull(controller);
+            Assert.IsNotNull(controller.Mvc);
         }
 
         [TestMethod]
         public void ResolveControllerWithName()
         {
             // Execute
-            _mvc.ResolveController("TestController");
+            var controller = _mvc.ResolveController("TestController");
+
+            // Execute
+            Assert.IsNotNull(controller);
+            Assert.IsInstanceOfType(controller, typeof (TestController));
+            Assert.IsNotNull((controller as TestController).Mvc);
         }
 
         [TestMethod]
@@ -268,7 +274,6 @@ namespace SimpleMvc.Test
             // Execute
             _mvc.ResolveController(a_controllerName: null);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]

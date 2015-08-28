@@ -95,26 +95,26 @@ namespace SimpleMvc.ViewCatalogs
         public string Namespace { get; }
 
         /// <summary>
-        /// Get a type with the given type name (<paramref name="a_typeName"/>).
+        /// Get a type with the given type name (<paramref name="a_catalogName"/>).
         /// </summary>
-        /// <param name="a_typeName">Type name.</param>
+        /// <param name="a_catalogName">Type name.</param>
         /// <returns>Resolved instance.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_typeName"/> is null.</exception>
-        public object Resolve(string a_typeName)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_catalogName"/> is null.</exception>
+        public object Resolve(string a_catalogName)
         {
             #region Argument Validation
 
-            if (a_typeName == null)
-                throw new ArgumentNullException(nameof(a_typeName));
+            if (a_catalogName == null)
+                throw new ArgumentNullException(nameof(a_catalogName));
 
             #endregion
 
             var types = from type in _assembly.GetTypes()
-                        where FilterTypesByName(type, a_typeName)
+                        where FilterTypesByName(type, a_catalogName)
                         select type;
 
             if (types.Take(2).Count() != 1)
-                throw new TypeNotFoundException(a_typeName);
+                throw new TypeNotFoundException(a_catalogName);
 
             var resolvedType = types.Single();
 
@@ -144,6 +144,45 @@ namespace SimpleMvc.ViewCatalogs
             var fullName = string.Join(".", a_sub, a_typeName).Trim('.');
 
             return Resolve(fullName);
+        }
+
+        /// <summary>
+        /// Get the catalog name from the given type name (<paramref name="a_typeName"/>).
+        /// </summary>
+        /// <param name="a_typeName">Type name.</param>
+        /// <returns>Catalog name.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_typeName"/> is null.</exception>
+        public string ToCatalogName(string a_typeName)
+        {
+            #region Argument Validation
+
+            if (a_typeName == null)
+                throw new ArgumentNullException(nameof(a_typeName));
+
+            #endregion
+
+            if (!a_typeName.EndsWith(_suffix))
+                return a_typeName;
+
+            return a_typeName.Substring(0, a_typeName.Length - _suffix.Length);
+        }
+
+        /// <summary>
+        /// Get the type name from the given catalog name (<paramref name="a_catalogName"/>).
+        /// </summary>
+        /// <param name="a_catalogName">Catalog name.</param>
+        /// <returns>Type name.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_typeName"/> is null.</exception>
+        public string ToTypeName(string a_catalogName)
+        {
+            #region Argument Validation
+
+            if (a_catalogName == null)
+                throw new ArgumentNullException(nameof(a_catalogName));
+
+            #endregion
+
+            return a_catalogName + _suffix;
         }
 
         /// <summary>

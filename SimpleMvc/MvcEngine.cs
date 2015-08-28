@@ -46,7 +46,12 @@ namespace SimpleMvc
         /// <returns>Controller type.</returns>
         public TController ResolveController<TController>()
         {
-            return _container.Resolve<TController>();
+            var controller = _container.Resolve<TController>();
+
+            if (controller is ControllerBase)
+                (controller as ControllerBase).Mvc = this;
+
+            return controller;
         }
 
         /// <summary>
@@ -67,7 +72,12 @@ namespace SimpleMvc
             if (_controllerCatalog == null)
                 throw new InvalidOperationException($"Cannot resolve the controller '{a_controllerName}' by name. No controller catalog was registered.");
 
-            return _controllerCatalog.Resolve(a_controllerName);
+            var controller = _controllerCatalog.Resolve(a_controllerName);
+
+            if (controller is ControllerBase)
+                (controller as ControllerBase).Mvc = this;
+
+            return controller;
         }
 
         /// <summary>
@@ -92,10 +102,14 @@ namespace SimpleMvc
             var handlers = _handlers.Where(i => i.Handles == a_result.GetType()).Select(i => i.Handler);
 
             if (!handlers.Any())
-                throw new MvcHandlerException($"There are no handlers registered for the type '{a_result.GetType().FullName}'.");            
+                throw new MvcHandlerException($"There are no handlers registered for the type '{a_result.GetType().FullName}'.");
+
+            var controllerName = a_controller.GetType().Name;
+            if (_controllerCatalog != null)
+                controllerName = _controllerCatalog.ToCatalogName(controllerName);
 
             foreach (var handler in handlers)
-                handler.Handle(a_controller, a_result);
+                handler.Handle(this, controllerName, a_result);
         }
 
         /// <summary>
@@ -184,7 +198,7 @@ namespace SimpleMvc
         public MvcEngine RegisterViewCatalog(string a_directory, string a_suffix = "", Type a_baseType = null)
         {
             var assembly = Assembly.GetCallingAssembly();
-            var catalog = new DirectoryCatalog(assembly, a_directory, a_suffix, a_baseType ?? typeof(ControllerBase));
+            var catalog = new DirectoryCatalog(assembly, a_directory, a_suffix, a_baseType);
 
             var viewHandler = GetViewHandler();
 

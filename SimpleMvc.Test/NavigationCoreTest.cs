@@ -17,11 +17,10 @@ namespace SimpleMvc.Test
         public void Initialize()
         {
             _container = new Container();
-            _mvcEngine = new MvcEngine(_container);
-            var viewHandler = new TestViewHandler();
-            _mvcEngine.RegisterHandler(viewHandler);
-            viewHandler.TypeCatalog.RegisterType<TestView1>("Index");
-            viewHandler.TypeCatalog.RegisterType<TestView2>("EditUser");
+            _mvcEngine = new MvcEngine(_container)
+                .RegisterControllerCatalog("TestControllers", "Controller")
+                .RegisterViewCatalog("TestViews")
+                .RegisterModelBinder(new TestModelBinder());
         }
 
         [TestMethod]
@@ -131,5 +130,50 @@ namespace SimpleMvc.Test
             navigationCore.Navigate<TestController>("User", routeDictionary);
         }
 
+
+        [TestMethod]
+        public void NavigateWithControllerName()
+        {
+            // Setup
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate("Test", "Index", new RouteDictionary());
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NavigateWithNullControllerName()
+        {
+            // Setup
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate(a_controllerName:null, a_actionName:"Index", a_routeValues:new RouteDictionary());
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NavigateWithControllerAndNullActionName()
+        {
+            // Setup
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate(a_controllerName: "Test", a_actionName: null, a_routeValues: new RouteDictionary());
+        }
+
+
+        [TestMethod]
+        public void NavigateWithControllerAndNullRouteValues()
+        {
+            // Setup
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate(a_controllerName: "Test", a_actionName: "Index", a_routeValues: null);
+        }
     }
 }

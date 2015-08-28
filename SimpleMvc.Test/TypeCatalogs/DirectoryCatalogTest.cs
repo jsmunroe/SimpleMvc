@@ -66,7 +66,7 @@ namespace SimpleMvc.Test.TypeCatalogs
             var catalog = new DirectoryCatalog(Assembly.GetExecutingAssembly(), "TestViews");
 
             // Assert
-            var view = catalog.Resolve(a_typeName:null);
+            var view = catalog.Resolve(a_catalogName:null);
         }
 
         [TestMethod]
@@ -103,6 +103,73 @@ namespace SimpleMvc.Test.TypeCatalogs
             // Execute
             var view = catalog.Resolve(a_sub: "TestController", a_typeName: null);
         }
+
+
+        [TestMethod]
+        public void ToTypeName()
+        {
+            // Setup
+            var catalog = new DirectoryCatalog(Assembly.GetExecutingAssembly(), "TestViews", "View");
+
+            // Execute
+            var typeName = catalog.ToTypeName("Test");
+
+            // Assert
+            Assert.AreEqual("TestView", typeName);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ToTypeNameWithNull()
+        {
+            // Setup
+            var catalog = new DirectoryCatalog(Assembly.GetExecutingAssembly(), "TestViews", "View");
+
+            // Execute
+            var typeName = catalog.ToTypeName(a_catalogName: null);
+        }
+
+
+        [TestMethod]
+        public void ToCatalogName()
+        {
+            // Setup
+            var catalog = new DirectoryCatalog(Assembly.GetExecutingAssembly(), "TestViews", "View");
+
+            // Execute
+            var catalogName = catalog.ToCatalogName("TestView");
+
+            // Assert
+            Assert.AreEqual("Test", catalogName);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ToCatalogNameWithNull()
+        {
+            // Setup
+            var catalog = new DirectoryCatalog(Assembly.GetExecutingAssembly(), "TestViews", "View");
+
+            // Execute
+            var catalogName = catalog.ToCatalogName(a_typeName: null);
+        }
+
+
+        [TestMethod]
+        public void ToCatalogNameWithIncorrectSuffix()
+        {
+            // Setup
+            var catalog = new DirectoryCatalog(Assembly.GetExecutingAssembly(), "TestViews", "View");
+
+
+            // Execute
+            var catalogName = catalog.ToCatalogName("TestXiew");
+
+            // Assert
+            Assert.AreEqual("TestXiew", catalogName);
+        }
+
 
     }
 }

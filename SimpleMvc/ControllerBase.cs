@@ -12,6 +12,11 @@ namespace SimpleMvc
     public abstract class ControllerBase
     {
         /// <summary>
+        /// Mvc engine.
+        /// </summary>
+        public MvcEngine Mvc { get; internal set; }
+
+        /// <summary>
         /// Create and return a view result.
         /// </summary>
         /// <param name="a_viewName">View name.</param>

@@ -10,4 +10,8 @@
     public class TestView1 : TestViewBase { }
 
     public class TestView2 : TestViewBase { }
+
+    public class Index : TestViewBase { }
+
+    public class EditUser : TestViewBase { }
 }

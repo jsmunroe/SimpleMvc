@@ -12,8 +12,9 @@ namespace SimpleMvc.Contracts
         /// <summary>
         /// Handle the given result (<paramref name="a_result"/>).
         /// </summary>
-        /// <param name="a_controller"></param>
+        /// <param name="a_mvc">Mvc engine from which is the result.</param>
+        /// <param name="a_controllerName"></param>
         /// <param name="a_result">Result to handle.</param>
-        void Handle(object a_controller, ActionResult a_result);
+        void Handle(MvcEngine a_mvc, string a_controllerName, ActionResult a_result);
     }
 }

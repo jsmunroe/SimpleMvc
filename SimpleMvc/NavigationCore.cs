@@ -5,11 +5,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using SimpleIoc;
+using SimpleMvc.Contracts;
 using SimpleMvc.Results;
 
 namespace SimpleMvc
 {
-    public class NavigationCore
+    public class NavigationCore : INavigationCore
     {
         private readonly MvcEngine _mvc = null;
 
@@ -38,7 +39,20 @@ namespace SimpleMvc
         /// <param name="a_routeValues">Values.</param>
         public void Navigate(string a_controllerName, string a_actionName, RouteDictionary a_routeValues)
         {
-            
+            #region Argument Validation
+
+            if (a_actionName == null)
+                throw new ArgumentNullException(nameof(a_actionName));
+
+            #endregion
+
+            a_routeValues = a_routeValues ?? new RouteDictionary();
+
+            var controller = _mvc.ResolveController(a_controllerName);
+
+            var actionExpression = CreateActionExpression(controller, a_actionName, a_routeValues);
+
+            Navigate(actionExpression);
         }
 
         /// <summary>

@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IModelBinder.cs" />
+    <Compile Include="Contracts\IMvcViewModel.cs" />
+    <Compile Include="Contracts\INavigationCore.cs" />
     <Compile Include="Contracts\IResultHandler.cs" />
     <Compile Include="Contracts\ITypeCatalog.cs" />
     <Compile Include="Contracts\IViewTarget.cs" />

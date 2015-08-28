@@ -118,13 +118,14 @@ namespace SimpleMvc.Test.Handlers
         public void HandleViewResult()
         {
             // Setup
+            var mvc = new MvcEngine();
             var controller = new TestController();
             var viewHandler = InitializeViewHandler();
             _typeCatalog.RegisterType<TestView1>("Index");
             var model = new TestModel();
 
             // Execute
-            viewHandler.Handle(controller, new ViewResult { ViewName = "Index", Model = model });
+            viewHandler.Handle(mvc, controller.GetType().Name, new ViewResult { ViewName = "Index", Model = model });
 
             // Assert
             Assert.IsTrue(_typeCatalog.TypeNames.Contains("Index"));
@@ -132,18 +133,32 @@ namespace SimpleMvc.Test.Handlers
             Assert.AreSame(model, (_viewTarget.LastSetView as TestView1).DataModel);
         }
 
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void HandleViewResultWithNullController()
+        public void HandleViewResultWithNullMvcEngine()
         {
             // Setup
-            var controller = new TestController();
             var viewHandler = InitializeViewHandler();
             _typeCatalog.RegisterType<TestView1>("Index");
             var model = new TestModel();
 
             // Execute
-            viewHandler.Handle(a_controller: null, a_result: new ViewResult { ViewName = "Index", Model = model });
+            viewHandler.Handle(a_mvc: null, a_controllerName: "TestController", a_result: new ViewResult { ViewName = "Index", Model = model });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HandleViewResultWithNullController()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+            var viewHandler = InitializeViewHandler();
+            _typeCatalog.RegisterType<TestView1>("Index");
+            var model = new TestModel();
+
+            // Execute
+            viewHandler.Handle(mvc, a_controllerName: null, a_result: new ViewResult { ViewName = "Index", Model = model });
         }
 
         [TestMethod]
@@ -151,11 +166,11 @@ namespace SimpleMvc.Test.Handlers
         public void HandleViewResultWithNullResult()
         {
             // Setup
-            var controller = new TestController();
+            var mvc = new MvcEngine();
             var viewHandler = InitializeViewHandler();
 
             // Execute
-            viewHandler.Handle(a_controller: controller, a_result: null);
+            viewHandler.Handle(mvc, a_controllerName: "TestController", a_result: null);
         }
 
         [TestMethod]
@@ -163,12 +178,12 @@ namespace SimpleMvc.Test.Handlers
         public void HandleViewResultWithNonRegisterView()
         {
             // Setup
-            var controller = new TestController();
+            var mvc = new MvcEngine();
             var viewHandler = InitializeViewHandler();
             var model = new TestModel();
 
             // Execute
-            viewHandler.Handle(controller, new ViewResult { ViewName = "Index", Model = model });
+            viewHandler.Handle(mvc, "TestController", new ViewResult { ViewName = "Index", Model = model });
 
             // Assert
             Assert.IsTrue(_typeCatalog.TypeNames.Contains("Index"));

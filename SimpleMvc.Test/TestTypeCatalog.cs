@@ -24,38 +24,47 @@ namespace SimpleMvc.Test
         }
 
         /// <summary>
-        /// Get a type with the given type name (<paramref name="a_typeName"/>).
+        /// Get a type with the given type name (<paramref name="a_catalogName"/>).
         /// </summary>
-        /// <param name="a_typeName">Type name.</param>
-        public object Resolve(string a_typeName)
+        /// <param name="a_catalogName">Type name.</param>
+        public object Resolve(string a_catalogName)
         {
             #region Argument Validation
 
-            if (a_typeName == null)
-                throw new ArgumentNullException(nameof(a_typeName));
+            if (a_catalogName == null)
+                throw new ArgumentNullException(nameof(a_catalogName));
 
             #endregion
 
-            if (!_typeTypesByName.ContainsKey(a_typeName))
+            if (!_typeTypesByName.ContainsKey(a_catalogName))
                 return null;
 
-            var typeType = _typeTypesByName[a_typeName];
+            var typeType = _typeTypesByName[a_catalogName];
             var type = _container.Resolve(typeType);
 
-            TypeNames.Add(a_typeName);
+            TypeNames.Add(a_catalogName);
 
             return type;
         }
 
         /// <summary>
-        /// Get a type with the given type name (<paramref name="a_typeName"/>).
+        /// Get the catalog name from the given type name (<paramref name="a_typeName"/>).
         /// </summary>
-        /// <param name="a_sub">Subdirectory name.</param>
         /// <param name="a_typeName">Type name.</param>
-        /// <returns></returns>
-        public object Resolve(string a_sub, string a_typeName)
+        /// <returns>Catalog name.</returns>
+        public string ToCatalogName(string a_typeName)
         {
-            throw new NotImplementedException();
+            return a_typeName;
+        }
+
+        /// <summary>
+        /// Get the type name from the given catalog name (<paramref name="a_catalogName"/>).
+        /// </summary>
+        /// <param name="a_catalogName">Catalog name.</param>
+        /// <returns>Type name.</returns>
+        public string ToTypeName(string a_catalogName)
+        {
+            return a_catalogName;
         }
     }
 }
