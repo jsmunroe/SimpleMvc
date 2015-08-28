@@ -1,6 +1,7 @@
 ﻿using SimpleMvc.Results;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -23,7 +24,7 @@ namespace SimpleMvc
         /// <param name="a_model">View model.</param>
         /// <returns>Created view result.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_viewName"/> is null.</exception>
-        protected ViewResult View([CallerMemberName]string a_viewName = "", object a_model = null)
+        protected ViewResult View(string a_viewName, object a_model = null)
         {
             #region Argument Validation
 
@@ -37,6 +38,25 @@ namespace SimpleMvc
                 ViewName = a_viewName,
                 Model = a_model,
             };
+        }
+
+        /// <summary>
+        /// Create and return a view result.
+        /// </summary>
+        /// <param name="a_model">View model.</param>
+        /// <returns>Created view result.</returns>
+        protected ViewResult View(object a_model = null)
+        {
+            StackFrame frame = new StackFrame(1);
+            var method = frame.GetMethod();
+            var viewName = method.Name;
+
+            return new ViewResult
+            {
+                ViewName = viewName,
+                Model = a_model,
+            };
+
         }
 
         /// <summary>

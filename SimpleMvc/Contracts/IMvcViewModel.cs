@@ -49,7 +49,7 @@ namespace SimpleMvc.Contracts
         /// <param name="a_actionName">Actor name.</param>
         /// <param name="a_routeValues">Values.</param>
         /// <exception cref="NullReferenceException">Thrown if <paramref name="a_viewModel"/> is null.</exception>
-        public static void Navigate(this IMvcViewModel a_viewModel, string a_controllerName, string a_actionName, dynamic a_routeValues = null)
+        public static void Navigate(this IMvcViewModel a_viewModel, string a_controllerName, string a_actionName, dynamic a_routeValues)
         {
             #region Argument Validation
 
@@ -90,7 +90,7 @@ namespace SimpleMvc.Contracts
         /// <param name="a_actionName">Actor name.</param>
         /// <param name="a_routeValues">Values.</param>
         /// <exception cref="NullReferenceException">Thrown if <paramref name="a_viewModel"/> is null.</exception>
-        public static void Navigate(this IMvcViewModel a_viewModel, string a_actionName, dynamic a_routeValues = null)
+        public static void Navigate(this IMvcViewModel a_viewModel, string a_actionName, dynamic a_routeValues)
         {
             #region Argument Validation
 
