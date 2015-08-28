@@ -17,15 +17,6 @@ Simple standalone platform-agnostic MVC engine with optional WPF support.
     
 ## XAML Integration
 
-    <Window x:Class="CutReady.Esi.UserItems.MainWindow"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:mvc="clr-namespace:SimpleMvc.Wpf;assembly=SimpleMvc.Wpf"
-            mc:Ignorable="d"
-            Title="Main Window" Height="600" Width="900">
-        <Grid>
-            <Frame mvc:ControlViewTarget.RegisterAs="MainFrame"></Frame>
-        </Grid>
-    </Window>
+    <Frame mvc:ControlViewTarget.RegisterAs="MainFrame"></Frame>
+
+
