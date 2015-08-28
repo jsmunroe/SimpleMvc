@@ -22,13 +22,13 @@ namespace SimpleMvc.Test.TestControllers
         public ActionResult User(int id)
         {
             User1Called = true;
-            return View("EditUser", new TestModel());
+            return View(new TestModel(), "EditUser");
         }
 
         public ActionResult User(string userName, string password)
         {
             User2Called = true;
-            return View("EditUser", new TestModel());
+            return View(new TestModel(), "EditUser");
         }
 
 
@@ -54,7 +54,7 @@ namespace SimpleMvc.Test.TestControllers
             var testModel = new TestModel();
 
             // Execute
-            var viewResult = View("ThisView", testModel);
+            var viewResult = View(testModel, "ThisView");
 
             // Assert
             Assert.AreEqual("ThisView", viewResult.ViewName);
@@ -69,7 +69,7 @@ namespace SimpleMvc.Test.TestControllers
             var testModel = new TestModel();
 
             // Execute
-            var viewResult = View(a_viewName: null, a_model: testModel);
+            var viewResult = View(a_model: testModel, a_viewName: null);
         }
 
 
@@ -77,7 +77,7 @@ namespace SimpleMvc.Test.TestControllers
         public void CallViewWithNullModel()
         {
             // Execute
-            var viewResult = View(a_viewName: "ViewName", a_model: null);
+            var viewResult = View(a_model: null, a_viewName: "ViewName");
 
             // Assert
             Assert.AreEqual("ViewName", viewResult.ViewName);

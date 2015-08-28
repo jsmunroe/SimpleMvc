@@ -21,11 +21,11 @@ namespace SimpleMvc
         /// <summary>
         /// Create and return a view result.
         /// </summary>
-        /// <param name="a_viewName">View name.</param>
         /// <param name="a_model">View model.</param>
+        /// <param name="a_viewName">View name.</param>
         /// <returns>Created view result.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_viewName"/> is null.</exception>
-        protected ViewResult View(string a_viewName, object a_model = null)
+        protected ViewResult View(object a_model, [CallerMemberName] string a_viewName = "")
         {
             #region Argument Validation
 
@@ -44,27 +44,14 @@ namespace SimpleMvc
         /// <summary>
         /// Create and return a view result.
         /// </summary>
-        /// <param name="a_model">View model.</param>
+        /// <param name="a_viewName">View name.</param>
         /// <returns>Created view result.</returns>
-        protected ViewResult View(object a_model = null)
+        protected ViewResult View([CallerMemberName] string a_viewName = "")
         {
-            string viewName = null;
-            var skip = 1;
-            while (viewName == null)
-            {
-                var frame = new StackFrame(skip);
-                var method = frame.GetMethod();
-
-                if (method.GetCustomAttribute(typeof (CompilerGeneratedAttribute)) == null)
-                    viewName = method.Name;
-
-                skip++;
-            }
-
             return new ViewResult
             {
-                ViewName = viewName,
-                Model = a_model,
+                ViewName = a_viewName,
+                Model = null,
             };
 
         }
