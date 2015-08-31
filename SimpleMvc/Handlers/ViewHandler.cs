@@ -54,7 +54,7 @@ namespace SimpleMvc.Handlers
             var mvcViewModel = (a_result.Model as IMvcViewModel);
             if (mvcViewModel != null)
             {
-                mvcViewModel.Mvc = a_mvc;
+                mvcViewModel.Navigator = a_mvc.Navigator;
                 mvcViewModel.ControllerName = a_controllerName.GetType().Name;
             }
 

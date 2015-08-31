@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace SimpleMvc.Contracts
 {
-    public interface INavigationCore
+    public interface INavigator
     {
         /// <summary>
         /// Navigate to the action with the given name (<paramref name="a_actionName"/>) within the controller with the given name (<paramref name="a_controllerName"/>).

@@ -10,7 +10,7 @@ using SimpleMvc.Results;
 
 namespace SimpleMvc
 {
-    public class NavigationCore : INavigationCore
+    public class NavigationCore : INavigator
     {
         private readonly MvcEngine _mvc = null;
 
