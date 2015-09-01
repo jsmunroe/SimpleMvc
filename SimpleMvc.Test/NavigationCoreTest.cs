@@ -175,5 +175,127 @@ namespace SimpleMvc.Test
             // Execute
             navigationCore.Navigate(a_controllerName: "Test", a_actionName: "Index", a_routeValues: null);
         }
+
+
+
+
+        [TestMethod]
+        public void NavigateToActionWithNameAndDynamicRouteValues()
+        {
+            // Setup
+            dynamic routeValues = new {};
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate<TestController>("Index", routeValues);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NavigateToActionWithNullNameAndDynamicRouteValues()
+        {
+            // Setup
+            dynamic routeValues = new { };
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate<TestController>(a_actionName: null, a_routeValues: routeValues);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exceptions.NavigationException))]
+        public void NavigateToNotExistingActionWithNameAndDynamicRouteValues()
+        {
+            // Setup
+            dynamic routeValues = new { };
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate<TestController>("Bindex", routeValues);
+        }
+
+        [TestMethod]
+        public void NavigateToActionWithArgumentsAndDynamicRouteValues()
+        {
+            // Setup
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            dynamic routeValues = new
+            {
+                id = 12
+            };
+            navigationCore.Navigate<TestController>("User", routeValues);
+        }
+
+        [TestMethod]
+        public void NavigateToActionWithArgumentsOverload2AndDynamicRouteValues()
+        {
+            // Setup
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            dynamic routeValues = new
+            {
+                username = "jsmunroe",
+                password = "password"
+            };
+            navigationCore.Navigate<TestController>("User", routeValues);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exceptions.NavigationException))]
+        public void NavigateToActionWithTooFewArgumentsAndDynamicRouteValues()
+        {
+            // Setup
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            dynamic routeValues = new
+            {
+                username = "jsmunroe",
+            };
+
+            navigationCore.Navigate<TestController>("User", routeValues);
+        }
+
+
+        [TestMethod]
+        public void NavigateWithControllerNameAndDynamicRouteValues()
+        {
+            // Setup
+            dynamic routeValues = new { };
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate("Test", "Index", routeValues);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NavigateWithNullControllerNameAndDynamicRouteValues()
+        {
+            // Setup
+            dynamic routeValues = new { };
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate(a_controllerName: null, a_actionName: "Index", a_routeValues: routeValues);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NavigateWithControllerAndNullActionNameAndDynamicRouteValues()
+        {
+            // Setup
+            dynamic routeValues = new { };
+            var navigationCore = new NavigationCore(_mvcEngine);
+
+            // Execute
+            navigationCore.Navigate(a_controllerName: "Test", a_actionName: null, a_routeValues: routeValues);
+        }
+
     }
 }

@@ -37,9 +37,14 @@ namespace SimpleMvc
         /// <param name="a_controllerName">Controller name.</param>
         /// <param name="a_actionName">Actor name.</param>
         /// <param name="a_routeValues">Values.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_controllerName"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_actionName"/> is null.</exception>
         public void Navigate(string a_controllerName, string a_actionName, RouteDictionary a_routeValues)
         {
             #region Argument Validation
+
+            if (a_controllerName == null)
+                throw new ArgumentNullException(nameof(a_controllerName));
 
             if (a_actionName == null)
                 throw new ArgumentNullException(nameof(a_actionName));
@@ -76,6 +81,67 @@ namespace SimpleMvc
             var controller = _mvc.ResolveController<TController>();
 
             var actionExpression = CreateActionExpression(controller, a_actionName, a_routeValues);
+
+            Navigate(actionExpression);
+        }
+
+        /// <summary>
+        /// Navigate to the action with the given name (<paramref name="a_actionName"/>) within the controller with the given name (<paramref name="a_controllerName"/>).
+        /// </summary>
+        /// <param name="a_controllerName">Controller name.</param>
+        /// <param name="a_actionName">Actor name.</param>
+        /// <param name="a_routeValues">Values.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_controllerName"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_routeValues"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_actionName"/> is null.</exception>
+        public void Navigate(string a_controllerName, string a_actionName, dynamic a_routeValues)
+        {
+            #region Argument Validation
+
+            if (a_controllerName == null)
+                throw new ArgumentNullException(nameof(a_controllerName));
+
+            if (a_routeValues == null)
+                throw new ArgumentNullException(nameof(a_routeValues));
+
+            if (a_actionName == null)
+                throw new ArgumentNullException(nameof(a_actionName));
+
+            #endregion
+
+            var routeValues = new RouteDictionary(a_routeValues);
+
+            var controller = _mvc.ResolveController(a_controllerName);
+
+            var actionExpression = CreateActionExpression(controller, a_actionName, routeValues);
+
+            Navigate(actionExpression);
+        }
+
+        /// <summary>
+        /// Navigate to the action 
+        /// </summary>
+        /// <typeparam name="TController">Type of controller.</typeparam>
+        /// <param name="a_actionName">Action name.</param>
+        /// <param name="a_routeValues">Values.</param>
+        /// <exception cref="ArgumentNullException">Thrown if "<paramref name="a_actionName"/>" is null.</exception>
+        public void Navigate<TController>(string a_actionName, dynamic a_routeValues)
+        {
+            #region Argument Validation
+
+            if (a_actionName == null)
+                throw new ArgumentNullException(nameof(a_actionName));
+
+            if (a_routeValues == null)
+                throw new ArgumentNullException(nameof(a_routeValues));
+
+            #endregion
+
+            var routeValues = new RouteDictionary(a_routeValues);
+
+            var controller = _mvc.ResolveController<TController>();
+
+            var actionExpression = CreateActionExpression(controller, a_actionName, routeValues);
 
             Navigate(actionExpression);
         }
