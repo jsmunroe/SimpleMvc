@@ -55,7 +55,7 @@ namespace SimpleMvc.Handlers
             if (mvcViewModel != null)
             {
                 mvcViewModel.Navigator = a_mvc.Navigator;
-                mvcViewModel.ControllerName = a_controllerName.GetType().Name;
+                mvcViewModel.ControllerName = a_controllerName;
             }
 
             // Apply model to the view.

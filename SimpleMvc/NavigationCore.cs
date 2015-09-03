@@ -57,7 +57,10 @@ namespace SimpleMvc
 
             var actionExpression = CreateActionExpression(controller, a_actionName, a_routeValues);
 
-            Navigate(actionExpression);
+            var result = actionExpression.Compile()(controller);
+
+            // Process the action result.
+            _mvc.HandleResult(controller, result);
         }
 
         /// <summary>
@@ -82,7 +85,10 @@ namespace SimpleMvc
 
             var actionExpression = CreateActionExpression(controller, a_actionName, a_routeValues);
 
-            Navigate(actionExpression);
+            var result = actionExpression.Compile()(controller);
+
+            // Process the action result.
+            _mvc.HandleResult(controller, result);
         }
 
         /// <summary>
@@ -115,7 +121,10 @@ namespace SimpleMvc
 
             var actionExpression = CreateActionExpression(controller, a_actionName, routeValues);
 
-            Navigate(actionExpression);
+            var result = actionExpression.Compile()(controller);
+
+            // Process the action result.
+            _mvc.HandleResult(controller, result);
         }
 
         /// <summary>
@@ -143,7 +152,10 @@ namespace SimpleMvc
 
             var actionExpression = CreateActionExpression(controller, a_actionName, routeValues);
 
-            Navigate(actionExpression);
+            var result = actionExpression.Compile()(controller);
+
+            // Process the action result.
+            _mvc.HandleResult(controller, result);
         }
 
         /// <summary>

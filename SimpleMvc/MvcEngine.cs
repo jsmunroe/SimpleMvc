@@ -55,6 +55,21 @@ namespace SimpleMvc
         }
 
         /// <summary>
+        /// Resolve an instance of the controller of the given type (<paramref name="a_controllerType"/>).
+        /// </summary>
+        /// <param name="a_controllerType">Type of controller.</param>
+        /// <returns>Controller type.</returns>
+        public object ResolveController(Type a_controllerType)
+        {
+            var controller = _container.Resolve(a_controllerType);
+
+            if (controller is ControllerBase)
+                (controller as ControllerBase).Mvc = this;
+
+            return controller;
+        }
+
+        /// <summary>
         /// Resolve an instance of the controller type with the given type (<paramref name="a_controllerName"/>).
         /// </summary>
         /// <param name="a_controllerName">Controller name.</param>
