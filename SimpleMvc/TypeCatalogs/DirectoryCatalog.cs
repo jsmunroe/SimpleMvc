@@ -199,7 +199,7 @@ namespace SimpleMvc.ViewCatalogs
             if (!_baseType.IsAssignableFrom(a_type))
                 return false;
 
-            if (!a_type.FullName.EndsWith(a_typeName + _suffix))
+            if (!a_type.FullName.EndsWith("." + a_typeName + _suffix))
                 return false;
 
             return true;
