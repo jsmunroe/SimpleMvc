@@ -168,7 +168,7 @@ namespace SimpleMvc
         public MvcEngine RegisterControllerCatalog(string a_directory, string a_suffix = "", Type a_baseType = null)
         {
             var assembly = Assembly.GetCallingAssembly();
-            _controllerCatalog = new DirectoryCatalog(assembly, a_directory, a_suffix, a_baseType ?? typeof(ControllerBase));
+            _controllerCatalog = new DirectoryCatalog(_container, assembly, a_directory, a_suffix, a_baseType ?? typeof(ControllerBase));
 
             return this;
         }
@@ -198,7 +198,7 @@ namespace SimpleMvc
         public MvcEngine RegisterViewCatalog(string a_directory, string a_suffix = "", Type a_baseType = null)
         {
             var assembly = Assembly.GetCallingAssembly();
-            var catalog = new DirectoryCatalog(assembly, a_directory, a_suffix, a_baseType);
+            var catalog = new DirectoryCatalog(_container, assembly, a_directory, a_suffix, a_baseType);
 
             var viewHandler = GetViewHandler();
 
