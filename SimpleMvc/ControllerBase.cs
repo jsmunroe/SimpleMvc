@@ -86,7 +86,7 @@ namespace SimpleMvc
         /// <param name="a_values">Route values.</param>
         /// <returns>Created redirect result.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_actionName"/> is null.</exception>
-        protected RediectResult Redirect(string a_actionName, dynamic a_values = null)
+        protected RediectResult Redirect(string a_actionName, dynamic a_values)
         {
             #region Argument Validation
 
@@ -141,7 +141,7 @@ namespace SimpleMvc
         /// <returns>Created redirect result.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_actionName"/> is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_controllerName"/> is null.</exception>
-        protected RediectResult Redirect(string a_actionName, string a_controllerName, dynamic a_values = null)
+        protected RediectResult Redirect(string a_actionName, string a_controllerName, dynamic a_values)
         {
             #region Argument Validation
 
