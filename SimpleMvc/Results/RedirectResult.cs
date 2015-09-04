@@ -1,6 +1,6 @@
 namespace SimpleMvc.Results
 {
-    public class RediectResult : ActionResult
+    public class RedirectResult : ActionResult
     {
         /// <summary>
         /// Controller name.

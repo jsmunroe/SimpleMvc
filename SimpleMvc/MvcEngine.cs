@@ -32,6 +32,8 @@ namespace SimpleMvc
         {
             _container = a_container ?? new Container();
             Navigator= new NavigationCore(this);
+
+            RegisterHandler(new RedirectHandler(Navigator));
         }
 
         /// <summary>
