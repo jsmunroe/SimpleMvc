@@ -17,7 +17,7 @@ namespace SimpleMvc
 {
     public class MvcEngine
     {
-        private readonly Container _container;
+        private readonly IContainer _container;
 
         private ITypeCatalog _controllerCatalog;
         private ViewHandler _viewHandler;
@@ -28,7 +28,7 @@ namespace SimpleMvc
         /// Construction.
         /// </summary>
         /// <param name="a_container">Application container</param>
-        public MvcEngine(Container a_container = null)
+        public MvcEngine(IContainer a_container = null)
         {
             _container = a_container ?? new Container();
             Navigator= new NavigationCore(this);

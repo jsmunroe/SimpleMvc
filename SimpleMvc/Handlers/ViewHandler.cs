@@ -71,7 +71,7 @@ namespace SimpleMvc.Handlers
         /// </summary>
         /// <param name="a_container">Container.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_container"/> is null.</exception>
-        public virtual void Bootstrap(Container a_container)
+        public virtual void Bootstrap(IContainer a_container)
         {
             #region Argument Validation
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using SimpleIoc;
+using SimpleIoc.Contracts;
 using SimpleMvc.Contracts;
 using SimpleMvc.Exceptions;
 
@@ -11,7 +12,7 @@ namespace SimpleMvc.ViewCatalogs
 {
     public class DirectoryCatalog : ITypeCatalog
     {
-        private readonly Container _container;
+        private readonly IContainer _container;
         private readonly Assembly _assembly;
         private readonly string _suffix;
         private readonly Type _baseType;
@@ -28,7 +29,7 @@ namespace SimpleMvc.ViewCatalogs
         /// <exception cref="ArgumentNullException">Thrown if "<paramref name="a_container"/>" is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown if "<paramref name="a_assembly"/>" is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_suffix"/> is null.</exception>
-        public DirectoryCatalog(Container a_container, Assembly a_assembly, string a_directory, string a_suffix = "", Type a_baseType = null)
+        public DirectoryCatalog(IContainer a_container, Assembly a_assembly, string a_directory, string a_suffix = "", Type a_baseType = null)
         {
             #region Argument Validation
 
