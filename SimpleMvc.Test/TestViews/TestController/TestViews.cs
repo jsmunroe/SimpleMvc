@@ -1,4 +1,6 @@
-﻿namespace SimpleMvc.Test.TestViews.TestController
+﻿using SimpleMvc.Contracts;
+
+namespace SimpleMvc.Test.TestViews.TestController
 {
     public class TestModel { }
 
@@ -14,4 +16,22 @@
     public class Index : TestViewBase { }
 
     public class EditUser : TestViewBase { }
+
+
+    public class TestMvcModel : IMvcViewModel
+    {
+        public bool CleanupCalled { get; private set; } = false;
+
+        public INavigator Navigator { get; set; }
+
+        public string ControllerName { get; set; }
+
+        /// <summary>
+        /// Cleanup this view model. 
+        /// </summary>
+        public void Cleanup()
+        {
+            CleanupCalled = true;
+        }
+    }
 }

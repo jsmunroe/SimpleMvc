@@ -12,6 +12,12 @@ namespace SimpleMvc
         public abstract void SetView(TView a_view);
 
         /// <summary>
+        /// Get the view from this target.
+        /// </summary>
+        /// <returns></returns>
+        public abstract TView GetView();
+
+        /// <summary>
         /// Set this target to the given view (<paramref name="a_view"/>).
         /// </summary>
         /// <param name="a_view">View object.</param>
@@ -23,6 +29,15 @@ namespace SimpleMvc
                 throw new InvalidOperationException($"This view target does not support this type of view ('{a_view.GetType().FullName}').");
 
             SetView((TView)a_view);
+        }
+
+        /// <summary>
+        /// Get the view from this target.
+        /// </summary>
+        /// <returns>View.</returns>
+        object IViewTarget.GetView()
+        {
+            return GetView();
         }
     }
 }

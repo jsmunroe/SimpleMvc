@@ -7,5 +7,11 @@ namespace SimpleMvc.Contracts
         /// </summary>
         /// <param name="a_view">View.</param>
         void SetView(object a_view);
+
+        /// <summary>
+        /// Get the view from this target.
+        /// </summary>
+        /// <returns>View.</returns>
+        object GetView();
     }
 }

@@ -63,7 +63,13 @@ namespace SimpleMvc.Handlers
 
             // Send view object to view targets.
             foreach (var viewTarget in _viewTargets)
+            {
+                var currentView = viewTarget.GetView();
+                var viewModel = _modelBinder?.GetModel(currentView) as IMvcViewModel;
+                viewModel?.Cleanup();
+
                 viewTarget.SetView(view);
+            }
         }
 
         /// <summary>

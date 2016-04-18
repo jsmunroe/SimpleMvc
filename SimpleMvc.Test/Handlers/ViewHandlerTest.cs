@@ -133,6 +133,26 @@ namespace SimpleMvc.Test.Handlers
             Assert.AreSame(model, (_viewTarget.LastSetView as TestView1).DataModel);
         }
 
+        [TestMethod]
+        public void HandleViewResultAgain()
+        {
+            // Setup
+            var mvc = new MvcEngine();
+            var controller = new TestController();
+            var viewHandler = InitializeViewHandler();
+            _typeCatalog.RegisterType<TestView1>("Index");
+            _typeCatalog.RegisterType<TestView2>("About");
+
+            var model = new TestMvcModel();
+            viewHandler.Handle(mvc, controller.GetType().Name, new ViewResult { ViewName = "Index", Model = model });
+
+            // Execute
+            viewHandler.Handle(mvc, controller.GetType().Name, new ViewResult { ViewName = "About" });
+
+            // Assert
+            Assert.IsTrue(model.CleanupCalled);
+        }
+
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -213,5 +233,7 @@ namespace SimpleMvc.Test.Handlers
             // Execute
             viewHandler.Bootstrap(a_container: null);
         }
+
+
     }
 }

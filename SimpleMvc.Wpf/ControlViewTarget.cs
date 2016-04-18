@@ -106,6 +106,15 @@ namespace SimpleMvc.Wpf
         }
 
         /// <summary>
+        /// Get the view from this target.
+        /// </summary>
+        /// <returns></returns>
+        public override FrameworkElement GetView()
+        {
+            return _control.Content as FrameworkElement;
+        }
+
+        /// <summary>
         /// Register the given control (<paramref name="a_control"/>) in this target.
         /// </summary>
         /// <param name="a_control">Control.</param>

@@ -14,5 +14,14 @@ namespace SimpleMvc.Test
         {
             LastSetView = a_view;
         }
+
+        /// <summary>
+        /// Get the view from this target.
+        /// </summary>
+        /// <returns>View.</returns>
+        public object GetView()
+        {
+            return LastSetView;
+        }
     }
 }

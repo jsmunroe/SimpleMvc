@@ -17,5 +17,10 @@ namespace SimpleMvc.Contracts
         /// Current controller's name.
         /// </summary>
         string ControllerName { get; set; }
+
+        /// <summary>
+        /// Cleanup this view model. 
+        /// </summary>
+        void Cleanup();
     }
 }
