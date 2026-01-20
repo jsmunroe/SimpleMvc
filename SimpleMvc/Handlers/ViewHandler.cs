@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using SimpleIoc;
 using SimpleIoc.Contracts;
 using SimpleMvc.Contracts;
 using SimpleMvc.Exceptions;
 using SimpleMvc.Results;
+using SimpleMvc.Attributes;
 
 namespace SimpleMvc.Handlers
 {
@@ -44,18 +46,25 @@ namespace SimpleMvc.Handlers
 
             #endregion
 
+            if (!a_result.TryGetViewNameFromModel(out var viewName))
+                throw new InvalidOperationException("View name could not be determined.");
+
             // Get view object from view catalog.
-            var view = _viewCatalog.Resolve(a_result.ViewName);
+            var view = _viewCatalog.Resolve(viewName);
+
+            if (view == null && !string.IsNullOrEmpty(a_controllerName))
+                view = _viewCatalog.Resolve(a_controllerName, viewName);
 
             if (view == null)
                 throw new TypeNotFoundException(a_result.ViewName);
 
             // Connect MVC view model.
-            var mvcViewModel = (a_result.Model as IMvcViewModel);
+            var mvcViewModel = (a_result.Model as IViewModel);
             if (mvcViewModel != null)
             {
                 mvcViewModel.Navigator = a_mvc.Navigator;
                 mvcViewModel.ControllerName = a_controllerName;
+                mvcViewModel.Container = a_mvc.Container;
             }
 
             // Apply model to the view.
@@ -65,11 +74,13 @@ namespace SimpleMvc.Handlers
             foreach (var viewTarget in _viewTargets)
             {
                 var currentView = viewTarget.GetView();
-                var viewModel = _modelBinder?.GetModel(currentView) as IMvcViewModel;
+                var viewModel = _modelBinder?.GetModel(currentView) as IViewModel;
                 viewModel?.Cleanup();
 
                 viewTarget.SetView(view);
             }
+
+            mvcViewModel?.Load();
         }
 
         /// <summary>

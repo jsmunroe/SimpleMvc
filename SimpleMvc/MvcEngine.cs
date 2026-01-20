@@ -41,6 +41,8 @@ namespace SimpleMvc
         /// </summary>
         public NavigationCore Navigator { get; }
 
+        public IContainer Container => _container;
+
         /// <summary>
         /// Resolve an instance of the controller of the given type (<typeparamref name="TController"/>).
         /// </summary>
@@ -48,7 +50,7 @@ namespace SimpleMvc
         /// <returns>Controller type.</returns>
         public TController ResolveController<TController>()
         {
-            var controller = _container.Resolve<TController>();
+            var controller = Container.Resolve<TController>();
 
             if (controller is ControllerBase)
                 (controller as ControllerBase).Mvc = this;
@@ -63,7 +65,7 @@ namespace SimpleMvc
         /// <returns>Controller type.</returns>
         public object ResolveController(Type a_controllerType)
         {
-            var controller = _container.Resolve(a_controllerType);
+            var controller = Container.Resolve(a_controllerType);
 
             if (controller is ControllerBase)
                 (controller as ControllerBase).Mvc = this;
@@ -185,7 +187,7 @@ namespace SimpleMvc
         public MvcEngine RegisterControllerCatalog(string a_directory, string a_suffix = "", Type a_baseType = null)
         {
             var assembly = Assembly.GetCallingAssembly();
-            _controllerCatalog = new DirectoryCatalog(_container, assembly, a_directory, a_suffix, a_baseType ?? typeof(ControllerBase));
+            _controllerCatalog = new DirectoryCatalog(Container, assembly, a_directory, a_suffix, a_baseType ?? typeof(ControllerBase));
 
             return this;
         }
@@ -215,7 +217,7 @@ namespace SimpleMvc
         public MvcEngine RegisterViewCatalog(string a_directory, string a_suffix = "", Type a_baseType = null)
         {
             var assembly = Assembly.GetCallingAssembly();
-            var catalog = new DirectoryCatalog(_container, assembly, a_directory, a_suffix, a_baseType);
+            var catalog = new DirectoryCatalog(Container, assembly, a_directory, a_suffix, a_baseType);
 
             var viewHandler = GetViewHandler();
 
@@ -279,7 +281,7 @@ namespace SimpleMvc
         }
 
         /// <summary>
-        /// If the given instance (<paramref name="a_instance"/>) is bootstrappable and hasn't yet been bootstrapped, then bootstrap it against the container herein (<see cref="_container"/>).
+        /// If the given instance (<paramref name="a_instance"/>) is bootstrappable and hasn't yet been bootstrapped, then bootstrap it against the container herein (<see cref="Container"/>).
         /// </summary>
         /// <param name="a_instance">Instance to bootstrap.</param>
         private void TryBootstrap(object a_instance)
@@ -288,7 +290,7 @@ namespace SimpleMvc
             if (bootstrappable == null || bootstrappable.IsBootstrapped)
                 return;
 
-            bootstrappable.Bootstrap(_container);
+            bootstrappable.Bootstrap(Container);
         }
 
         /// <summary>

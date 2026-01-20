@@ -10,8 +10,8 @@
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageId>JSMunroe-SimpleMvc</PackageId>
-    <Title>Simple MVC</Title>
+    <PackageId>SimpleMvc.Wpf</PackageId>
+    <Title>Simple MVC for WPF Apps</Title>
     <Version>1.1.0</Version>
     <Authors>Jordan Munroe</Authors>
     <Description>A system of using the MVC pattern with WPF applications.</Description>
@@ -33,11 +33,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="JSMunroe-SimpleIoc" Version="1.1.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SimpleIoc\SimpleIoc\SimpleIoc.csproj" />
+    <ProjectReference Include="..\SimpleMvc\SimpleMvc.csproj" />
   </ItemGroup>
 </Project>

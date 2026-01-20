@@ -1,5 +1,5 @@
 ﻿using SimpleMvc.Results;
-using SimpleMvc.Wpf.Attributes;
+using SimpleMvc.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

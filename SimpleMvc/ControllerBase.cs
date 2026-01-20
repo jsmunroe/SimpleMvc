@@ -27,13 +27,6 @@ namespace SimpleMvc
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="a_viewName"/> is null.</exception>
         protected ViewResult View(object a_model, [CallerMemberName] string a_viewName = "")
         {
-            #region Argument Validation
-
-            if (a_viewName == null)
-                throw new ArgumentNullException(nameof(a_viewName));
-
-            #endregion
-
             return new ViewResult
             {
                 ViewName = a_viewName,

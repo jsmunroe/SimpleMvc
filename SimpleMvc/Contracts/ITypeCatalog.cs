@@ -8,6 +8,7 @@ namespace SimpleMvc.Contracts
         /// </summary>
         /// <param name="a_catalogName">Catalog type name.</param>
         object Resolve(string a_catalogName);
+        object Resolve(string a_sub, string a_typeName);
 
         /// <summary>
         /// Get the catalog name from the given type name (<paramref name="a_typeName"/>).

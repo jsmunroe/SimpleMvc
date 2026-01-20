@@ -115,7 +115,7 @@ namespace SimpleMvc.ViewCatalogs
                         select type;
 
             if (types.Take(2).Count() != 1)
-                throw new TypeNotFoundException(a_catalogName);
+                return null;
 
             var resolvedType = types.Single();
 
