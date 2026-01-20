@@ -1,83 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9F7BA126-6DF9-44A2-9DEC-EE991CC450AF}</ProjectGuid>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleMvc</RootNamespace>
-    <AssemblyName>SimpleMvc</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>SimpleMvc</AssemblyTitle>
+    <Company>Hewlett-Packard</Company>
+    <Product>SimpleMvc</Product>
+    <Copyright>Copyright © Hewlett-Packard 2015</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleIoc, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\JSMunroe-SimpleIoc.1.0.2-alpha00003\lib\SimpleIoc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="JSMunroe-SimpleIoc" Version="1.0.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Contracts\IModelBinder.cs" />
-    <Compile Include="Contracts\IMvcViewModel.cs" />
-    <Compile Include="Contracts\INavigator.cs" />
-    <Compile Include="Contracts\IResultHandler.cs" />
-    <Compile Include="Contracts\ITypeCatalog.cs" />
-    <Compile Include="Contracts\IViewTarget.cs" />
-    <Compile Include="Exceptions\MvcHandlerException.cs" />
-    <Compile Include="Exceptions\TypeNotFoundException.cs" />
-    <Compile Include="Handlers\RedirectHandler.cs" />
-    <Compile Include="Handlers\ResultHandlerBase.cs" />
-    <Compile Include="Handlers\ViewHandler.cs" />
-    <Compile Include="ModelBinderBase.cs" />
-    <Compile Include="Results\ActionResult.cs" />
-    <Compile Include="ControllerBase.cs" />
-    <Compile Include="Exceptions\NavigationExcection.cs" />
-    <Compile Include="MvcEngine.cs" />
-    <Compile Include="NavigationCore.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Results\RedirectResult.cs" />
-    <Compile Include="Results\ViewResult.cs" />
-    <Compile Include="RouteDictionary.cs" />
-    <Compile Include="TypeCatalogs\DirectoryCatalog.cs" />
-    <Compile Include="ViewTarget.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
