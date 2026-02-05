@@ -215,6 +215,22 @@ namespace SimpleMvc
             _mvc.HandleResult(controller, result);
         }
 
+        private bool IsActionMethod(MethodInfo method)
+        {
+            var returnType = method.ReturnType;
+
+            if (typeof(ActionResult).IsAssignableFrom(returnType))
+                return true;
+
+            if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>))
+            {
+                if (returnType.GenericTypeArguments.Length == 1 && typeof(ActionResult).IsAssignableFrom(returnType.GenericTypeArguments[0]))
+                    return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Create a lambda expression tree for the action with the given name (<paramref name="a_actionName"/>) and route values ().
         /// </summary>
@@ -229,7 +245,7 @@ namespace SimpleMvc
             var controllerType = a_controller.GetType();
             var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                                         .Where(i => i.Name.Equals(a_actionName, StringComparison.OrdinalIgnoreCase))
-                                        .Where(i => i.ReturnType.IsAssignableFrom(typeof(ActionResult)))
+                                        .Where(IsActionMethod)
                                         .ToArray();
 
             a_routeValues ??= [];

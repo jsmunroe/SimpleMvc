@@ -8,7 +8,7 @@ using SimpleIoc.Contracts;
 using SimpleMvc.Contracts;
 using SimpleMvc.Exceptions;
 
-namespace SimpleMvc.ViewCatalogs
+namespace SimpleMvc.TypeCatalogs
 {
     public class DirectoryCatalog : ITypeCatalog
     {

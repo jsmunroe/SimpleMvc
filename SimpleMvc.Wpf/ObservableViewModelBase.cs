@@ -1,22 +1,15 @@
-﻿using SimpleIoc.Contracts;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SimpleMvc.Contracts;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleMvc.Wpf
 {
-    public class ViewModelBase: IViewModel, INotifyPropertyChanged
+    public class ObservableViewModelBase : ObservableObject, IViewModel
     {
         protected INavigator Navigator { get; private set; }
         protected string ControllerName { get; private set; }
         protected SimpleIoc.Contracts.IContainer Container { get; private set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void Load()
         {
@@ -26,11 +19,6 @@ namespace SimpleMvc.Wpf
         public virtual void Cleanup()
         {
             // Override in derived classes to perform cleanup tasks
-        }
-
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected TViewModel Afix<TViewModel>(TViewModel child)

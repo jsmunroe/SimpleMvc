@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 
-namespace SimpleMvc.Results
+namespace SimpleMvc.Extensions
 {
     public static class ViewResultExtensions
     {

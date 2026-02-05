@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using SimpleMvc.Exceptions;
 using SimpleMvc.Handlers;
 using SimpleMvc.Results;
-using SimpleMvc.ViewCatalogs;
+using SimpleMvc.TypeCatalogs;
 
 namespace SimpleMvc
 {

@@ -7,6 +7,7 @@ using SimpleMvc.Contracts;
 using SimpleMvc.Exceptions;
 using SimpleMvc.Results;
 using SimpleMvc.Attributes;
+using SimpleMvc.Extensions;
 
 namespace SimpleMvc.Handlers
 {
